@@ -233,7 +233,7 @@ Entities:
         path: assets/defaults/models/cube.glb
         uuid: 17154083321347000101
   - Entity: 910020
-    Name: Player
+    Name: Ball
     Tag: Player
     Canis::Transform:
       active: true
@@ -699,3 +699,51 @@ Entities:
         uuid: 14618725492368012463
         fontSize: 32
     SuperPupUtilities::FPSCounter: ~
+  - Entity: 7544183909755889777
+    Name: Player
+    Tag: ""
+    Canis::Transform:
+      active: true
+      position: [1.919525, 1.7835209, 0]
+      rotation: [0, -0, 0]
+      scale: [1, 1, 1]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 2
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: true
+      isSensor: false
+      layer: 2
+      mask: 4294967295
+      allowSleeping: true
+      lockRotationX: true
+      lockRotationY: true
+      lockRotationZ: true
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::CapsuleCollider:
+      active: true
+      halfHeight: 0.5
+      radius: 0.5
+    Canis::Material:
+      color: [1, 1, 1, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 1, 1, 1]
+      ModelAsset:
+        path: assets/defaults/models/capsule.glb
+        uuid: 17154083321347000103
+    PlayerController:
+      moveForce: 1000
+      jumpImpulse: 7.5
+      groundCheckDistance: 2
+      groundCollisionMask: 1
+      pickupRadius: 1.15

@@ -31,12 +31,17 @@ foreach(script_header_path IN LISTS header_paths)
 
     list(APPEND script_includes "#include <${script_header}>")
 
-    get_filename_component(script_dir "${script_header}" DIRECTORY)
-    if (script_dir)
-        string(REPLACE "/" "::" script_namespace "${script_dir}")
-        set(script_prefix "${script_namespace}::")
-    else()
-        set(script_prefix "")
+    set(script_prefix "")
+
+    if (script_header_contents MATCHES "ScriptName[ \t\r\n]*=[ \t\r\n]*\"([^\"]+)\"")
+        set(script_name "${CMAKE_MATCH_1}")
+        string(FIND "${script_name}" "::" last_namespace_separator REVERSE)
+        if (NOT last_namespace_separator EQUAL -1)
+            string(SUBSTRING "${script_name}" 0 ${last_namespace_separator} script_namespace)
+            set(script_prefix "${script_namespace}::")
+        endif()
+    elseif (script_header_contents MATCHES "namespace[ \t\r\n]+([A-Za-z_][A-Za-z0-9_:]*)[ \t\r\n]*\\{")
+        set(script_prefix "${CMAKE_MATCH_1}::")
     endif()
 
     list(APPEND register_entries "        &${script_prefix}Register${script_stem}Script,")
