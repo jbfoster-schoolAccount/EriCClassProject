@@ -77,10 +77,10 @@ void PlayerController::Update(float _dt)
         window.LockMouse(!window.IsMouseLocked());
     }
 
-    if (!window.IsMouseLocked() && input.JustLeftClicked())
-    {
-        window.LockMouse(true);
-    }
+    //if (!window.IsMouseLocked() && input.JustLeftClicked())
+    //{
+    //    window.LockMouse(true);
+    //}
 
     if (window.IsMouseLocked())
     {
