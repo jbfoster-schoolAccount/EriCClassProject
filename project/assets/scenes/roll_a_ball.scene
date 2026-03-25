@@ -273,7 +273,8 @@ Entities:
       ModelAsset:
         path: assets/defaults/models/cube.glb
         uuid: 17154083321347000101
-    RockBlock: ~
+    RockBlock:
+      dropPrefab: assets/prefabs/rock_item.scene
   - Entity: 910101
     Name: Gold_Block
     Tag: ""
@@ -315,7 +316,8 @@ Entities:
       ModelAsset:
         path: assets/defaults/models/cube.glb
         uuid: 17154083321347000101
-    GoldBlock: ~
+    GoldBlock:
+      dropPrefab: assets/prefabs/gold_item.scene
   - Entity: 910102
     Name: Uranium_Block
     Tag: ""
@@ -357,13 +359,14 @@ Entities:
       ModelAsset:
         path: assets/defaults/models/cube.glb
         uuid: 17154083321347000101
-    UraniumBlock: ~
+    UraniumBlock:
+      dropPrefab: assets/prefabs/uranium_item.scene
   - Entity: 910103
     Name: Ice_Block
     Tag: ""
     Canis::Transform:
       active: true
-      position: [12, 0.8, -6]
+      position: [6, 0.8, 0]
       rotation: [0, 0, 0]
       scale: [1, 1, 1]
       parent: 0
@@ -399,7 +402,8 @@ Entities:
       ModelAsset:
         path: assets/defaults/models/cube.glb
         uuid: 17154083321347000101
-    IceBlock: ~
+    IceBlock:
+      dropPrefab: assets/prefabs/ice_item.scene
   - Entity: 7448487586354055887
     Name: BoostPad
     Tag: ""
@@ -734,10 +738,10 @@ Entities:
       ModelAsset:
         path: assets/defaults/models/cube.glb
         uuid: 17154083321347000101
+    Ice: ~
     PickupEffect:
       rotationSpeed: 120
       fallSpeed: 1
       amplitued: 0.2
       targetGroundOffset: 1
       groundCollisionMask: 1
-    Ice: ~

@@ -2,6 +2,7 @@
 
 #include <Environment/I_Block.hpp>
 #include <I_Interactable.hpp>
+#include <Canis/AssetHandle.hpp>
 #include <Canis/Entity.hpp>
 
 class IceBlock : public Canis::ScriptableEntity, public I_Block, public I_Interactable
@@ -10,6 +11,8 @@ public:
     static constexpr const char* ScriptName = "IceBlock";
 
     explicit IceBlock(Canis::Entity &_entity) : Canis::ScriptableEntity(_entity) {}
+
+    Canis::SceneAssetHandle dropPrefab = {};
 
     void Create();
     void Ready();
