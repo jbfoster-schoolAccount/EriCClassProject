@@ -87,16 +87,36 @@ namespace Canis
         if (scene == nullptr || scene->app == nullptr || inputManager == nullptr || window == nullptr)
             return;
 
+        auto resetDragSourceState = [](Entity* _entity) -> void
+        {
+            if (_entity == nullptr || !_entity->HasComponents<RectTransform, UIDragSource>())
+                return;
+
+            UIDragSource& dragSource = _entity->GetComponent<UIDragSource>();
+            RectTransform& dragRect = _entity->GetComponent<RectTransform>();
+            dragRect.position = dragSource.originalPosition;
+            dragRect.depth = dragSource.originalDepth;
+            dragSource.dragging = false;
+        };
+
         if (m_pressedButton != nullptr &&
-            (!m_pressedButton->active || !m_pressedButton->HasComponents<RectTransform, UIButton>()))
+            (!m_pressedButton->active ||
+             !m_pressedButton->HasComponents<RectTransform, UIButton>() ||
+             !m_pressedButton->GetComponent<UIButton>().active ||
+             !m_pressedButton->GetComponent<RectTransform>().IsActiveInHierarchy()))
         {
             m_pressedButton = nullptr;
         }
 
         if (m_dragSource != nullptr &&
-            (!m_dragSource->active || !m_dragSource->HasComponents<RectTransform, UIDragSource>()))
+            (!m_dragSource->active ||
+             !m_dragSource->HasComponents<RectTransform, UIDragSource>() ||
+             !m_dragSource->GetComponent<UIDragSource>().active ||
+             !m_dragSource->GetComponent<RectTransform>().IsActiveInHierarchy()))
         {
+            resetDragSourceState(m_dragSource);
             m_dragSource = nullptr;
+            m_hoveredDropTarget = nullptr;
         }
 
         if (window->IsMouseLocked())
@@ -104,8 +124,9 @@ namespace Canis
             auto buttonView = _registry.view<RectTransform, UIButton>();
             for (auto [entityHandle, rect, button] : buttonView.each())
             {
+                (void)entityHandle;
                 Entity* entity = button.entity;
-                if (entity == nullptr || !entity->active || !rect.active || !button.active)
+                if (entity == nullptr || !button.active)
                     continue;
 
                 button.hovered = false;
@@ -119,24 +140,27 @@ namespace Canis
                 (void)entityHandle;
                 (void)rect;
                 Entity* entity = dropTarget.entity;
-                if (entity == nullptr || !entity->active || !dropTarget.active)
+                if (entity == nullptr || !dropTarget.active)
                     continue;
 
                 dropTarget.hovered = false;
                 ApplyDropTargetVisual(*entity, dropTarget);
             }
 
+            m_hoveredDropTarget = nullptr;
             return;
         }
 
         for (auto [entityHandle, rect, button] : _registry.view<RectTransform, UIButton>().each())
         {
+            (void)entityHandle;
             Entity* entity = button.entity;
-            if (entity == nullptr || !entity->active || !rect.active || !button.active)
+            if (entity == nullptr || !button.active)
                 continue;
 
+            const bool visible = rect.IsActiveInHierarchy();
             button.hovered = false;
-            button.pressed = (m_pressedButton == entity) && inputManager->GetLeftClick();
+            button.pressed = visible && (m_pressedButton == entity) && inputManager->GetLeftClick();
             ApplyButtonVisual(*entity, button, rect);
         }
 
@@ -145,7 +169,7 @@ namespace Canis
             (void)entityHandle;
             (void)rect;
             Entity* entity = dropTarget.entity;
-            if (entity == nullptr || !entity->active || !dropTarget.active)
+            if (entity == nullptr || !dropTarget.active)
                 continue;
 
             dropTarget.hovered = false;
@@ -161,7 +185,7 @@ namespace Canis
 
         auto evaluateRectEntity = [&](Entity* _entity, RectTransform& _rect, float& _bestDepth, Entity*& _bestEntity) -> void
         {
-            if (_entity == nullptr || !_entity->active || !_rect.active)
+            if (_entity == nullptr || !_rect.IsActiveInHierarchy())
                 return;
 
             const unsigned int renderMode = _rect.GetCanvasRenderMode();
@@ -184,13 +208,19 @@ namespace Canis
         {
             auto buttonView = _registry.view<RectTransform, UIButton>();
             for (auto [entityHandle, rect, button] : buttonView.each())
+            {
+                (void)entityHandle;
                 if (button.active)
                     evaluateRectEntity(button.entity, rect, hoveredButtonDepth, hoveredButton);
+            }
 
             auto dragView = _registry.view<RectTransform, UIDragSource>();
             for (auto [entityHandle, rect, dragSource] : dragView.each())
+            {
+                (void)entityHandle;
                 if (dragSource.active)
                     evaluateRectEntity(dragSource.entity, rect, hoveredDragDepth, hoveredDragSource);
+            }
         }
         else
         {
@@ -203,6 +233,7 @@ namespace Canis
             auto dropView = _registry.view<RectTransform, UIDropTarget>();
             for (auto [entityHandle, rect, dropTarget] : dropView.each())
             {
+                (void)entityHandle;
                 if (!dropTarget.active || dropTarget.entity == nullptr || dropTarget.entity == m_dragSource)
                     continue;
 

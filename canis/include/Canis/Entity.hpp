@@ -302,6 +302,8 @@ namespace Canis
 
         unsigned int GetCanvasRenderMode() const;
 
+        bool IsActiveInHierarchy() const;
+
         void SetAnchorPreset(RectAnchor _anchor);
 
         int GetAnchorPreset() const;

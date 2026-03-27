@@ -2,6 +2,7 @@
 
 #include <Environment/I_Block.hpp>
 #include <I_Interactable.hpp>
+#include <UI/GameUIController.hpp>
 #include <UI/InfoText.hpp>
 
 #include <Canis/App.hpp>
@@ -9,6 +10,17 @@
 #include <Canis/InputManager.hpp>
 #include <Canis/ConfigHelper.hpp>
 #include <Canis/Window.hpp>
+
+namespace
+{
+    GameUIController* GetGameUIController(Canis::Scene& _scene)
+    {
+        if (Canis::Entity* hudCanvas = _scene.FindEntityWithName("HUD_Canvas"))
+            return hudCanvas->GetScript<GameUIController>();
+
+        return nullptr;
+    }
+}
 
 ScriptConf playerConf = {};
 
@@ -132,6 +144,12 @@ void PlayerController::Update(float _dt)
     // scanner
     if (m_cameraEntity && m_cameraEntity->HasComponent<Transform>())
     {
+        if (GameUIController* gameUI = GetGameUIController(entity.scene))
+        {
+            if (gameUI->IsBlockingWorldInteraction())
+                return;
+        }
+
         RaycastHit blockHit = {};
         RaycastHit itemHit = {};
         std::string message = "";

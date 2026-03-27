@@ -58,6 +58,7 @@ namespace Canis
         unsigned int GetGameInputWindowID() const { return m_gameInputWindowID; }
 
         EditorMode GetMode() { return m_mode; }
+        void StopPlayMode();
         void FocusEntity(Canis::Entity* _entity);
 
         // inspector variables

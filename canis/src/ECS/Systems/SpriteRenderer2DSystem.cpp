@@ -576,29 +576,53 @@ namespace Canis
             Begin(glyphSortType);
 
             auto renderView = _registry.view<RectTransform>();
-            for (const entt::entity entityHandle : renderView)
+            const std::vector<Entity*>& sceneEntities = scene->GetEntities();
+            std::vector<bool> visited(sceneEntities.size(), false);
+
+            auto wasVisited = [&](Entity* _entity) -> bool
             {
-                RectTransform &transform = renderView.get<RectTransform>(entityHandle);
-                Entity *entity = transform.entity;
-                if (entity == nullptr || !entity->active || !transform.active)
-                    continue;
+                return _entity != nullptr &&
+                    _entity->id >= 0 &&
+                    _entity->id < static_cast<int>(visited.size()) &&
+                    visited[static_cast<std::size_t>(_entity->id)];
+            };
 
-                if (transform.GetCanvasRenderMode() != _renderMode)
-                    continue;
-
-                Sprite2D* sprite = _registry.try_get<Sprite2D>(entityHandle);
-                Text* text = _registry.try_get<Text>(entityHandle);
-
-                if (sprite != nullptr)
+            auto markVisited = [&](Entity* _entity) -> void
+            {
+                if (_entity == nullptr ||
+                    _entity->id < 0 ||
+                    _entity->id >= static_cast<int>(visited.size()))
                 {
+                    return;
+                }
+
+                visited[static_cast<std::size_t>(_entity->id)] = true;
+            };
+
+            auto renderTree = [&](auto&& _self, Entity* _entity) -> void
+            {
+                if (_entity == nullptr || !_entity->HasComponent<RectTransform>() || wasVisited(_entity))
+                    return;
+
+                markVisited(_entity);
+
+                RectTransform &transform = _entity->GetComponent<RectTransform>();
+                const bool shouldRender = transform.IsActiveInHierarchy() &&
+                    transform.GetCanvasRenderMode() == _renderMode;
+
+                if (shouldRender)
+                {
+                    Sprite2D* sprite = _registry.try_get<Sprite2D>(_entity->GetHandle());
+                    Text* text = _registry.try_get<Text>(_entity->GetHandle());
                     const Vector2 position = transform.GetPosition();
                     const Vector2 size = transform.GetResolvedSize();
 
-                    if (_renderMode == CanvasRenderMode::SCREEN_SPACE_OVERLAY ||
-                        (position.x > camPos.x - size.x - halfWidth  &&
-                         position.x < camPos.x + size.x + halfWidth  &&
-                         position.y > camPos.y - size.y - halfHeight &&
-                         position.y < camPos.y + size.y + halfHeight))
+                    if (sprite != nullptr &&
+                        (_renderMode == CanvasRenderMode::SCREEN_SPACE_OVERLAY ||
+                         (position.x > camPos.x - size.x - halfWidth  &&
+                          position.x < camPos.x + size.x + halfWidth  &&
+                          position.y > camPos.y - size.y - halfHeight &&
+                          position.y < camPos.y + size.y + halfHeight)))
                     {
                         const Vector2 pivotOffset(
                             ((0.5f - transform.pivot.x) * size.x) + transform.originOffset.x,
@@ -613,10 +637,55 @@ namespace Canis
                             transform.GetRotation(),
                             pivotOffset);
                     }
+
+                    if (text != nullptr)
+                        DrawText(_entity, &transform, text, camPos, halfWidth, halfHeight);
                 }
 
-                if (text != nullptr)
-                    DrawText(entity, &transform, text, camPos, halfWidth, halfHeight);
+                for (Entity* child : transform.children)
+                    _self(_self, child);
+            };
+
+            auto renderRootTree = [&](Entity* _entity) -> void
+            {
+                renderTree(renderTree, _entity);
+            };
+
+            auto canvasView = _registry.view<Canvas, RectTransform>();
+            for (const entt::entity entityHandle : canvasView)
+            {
+                RectTransform &transform = canvasView.get<RectTransform>(entityHandle);
+                Entity *entity = transform.entity;
+                if (entity == nullptr || wasVisited(entity))
+                    continue;
+
+                if (transform.parent != nullptr && transform.parent->HasComponent<RectTransform>())
+                    continue;
+
+                renderRootTree(entity);
+            }
+
+            for (const entt::entity entityHandle : renderView)
+            {
+                RectTransform &transform = renderView.get<RectTransform>(entityHandle);
+                Entity *entity = transform.entity;
+                if (entity == nullptr || wasVisited(entity))
+                    continue;
+
+                if (transform.parent != nullptr && transform.parent->HasComponent<RectTransform>())
+                    continue;
+
+                renderRootTree(entity);
+            }
+
+            for (const entt::entity entityHandle : renderView)
+            {
+                RectTransform &transform = renderView.get<RectTransform>(entityHandle);
+                Entity *entity = transform.entity;
+                if (entity == nullptr || wasVisited(entity))
+                    continue;
+
+                renderRootTree(entity);
             }
 
             End();

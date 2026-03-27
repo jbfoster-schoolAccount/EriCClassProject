@@ -41,12 +41,13 @@ private:
     Canis::Entity* m_furnaceOreSlot = nullptr;
 
     std::vector<InventoryEntryUI> m_inventoryEntries = {};
+    float m_worldInteractionSuppressTimer = 0.0f;
 
-    void DestroyRuntimeChildren();
-    void BuildPauseMenu();
-    void BuildFurnacePopup();
+    void ClearUIReferences();
+    void BindSceneUI();
     void SetModalPage(ModalPage _page);
     void RefreshFurnacePopup();
+    void SuppressWorldInteraction(float _seconds = 0.1f);
 
 public:
     static constexpr const char* ScriptName = "GameUIController";
@@ -58,6 +59,7 @@ public:
     void Destroy() override;
     void Update(float _dt) override;
     bool UpdateWhenPaused() const override { return true; }
+    bool IsBlockingWorldInteraction() const { return m_worldInteractionSuppressTimer > 0.0f; }
 
     void OpenFurnace(Canis::Entity &_furnaceEntity, Canis::Entity &_playerEntity);
 

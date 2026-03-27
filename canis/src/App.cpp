@@ -94,6 +94,152 @@ namespace Canis
             for (const std::string &path : paths)
                 (void)AssetManager::GetMetaFile(path);
         }
+
+#if CANIS_EDITOR
+        std::vector<ScriptConf*> GetConnectedUIScriptOptions(App& _app, Entity* _targetEntity)
+        {
+            std::vector<ScriptConf*> options = {};
+
+            if (_targetEntity == nullptr)
+                return options;
+
+            for (ScriptConf& conf : _app.GetScriptRegistry())
+            {
+                if (conf.uiActions.empty() || conf.Has == nullptr || conf.Get == nullptr)
+                    continue;
+
+                if (!conf.Has(*_targetEntity))
+                    continue;
+
+                if (conf.Get(*_targetEntity) == nullptr)
+                    continue;
+
+                options.push_back(&conf);
+            }
+
+            std::sort(options.begin(), options.end(), [](const ScriptConf* _left, const ScriptConf* _right) -> bool
+            {
+                if (_left == nullptr || _right == nullptr)
+                    return _left != nullptr;
+
+                return _left->name < _right->name;
+            });
+
+            return options;
+        }
+
+        std::vector<std::string> GetConnectedUIActionOptions(ScriptConf* _scriptConf)
+        {
+            std::vector<std::string> options = {};
+
+            if (_scriptConf == nullptr)
+                return options;
+
+            options.reserve(_scriptConf->uiActions.size());
+            for (const auto& [actionName, actionInvoker] : _scriptConf->uiActions)
+            {
+                (void)actionInvoker;
+                options.push_back(actionName);
+            }
+
+            std::sort(options.begin(), options.end());
+            return options;
+        }
+
+        void DrawConnectedUIActionSelector(App& _app, Entity* _targetEntity, std::string& _targetScript, std::string& _actionName, const char* _idSuffix)
+        {
+            std::vector<ScriptConf*> scriptOptions = GetConnectedUIScriptOptions(_app, _targetEntity);
+
+            ScriptConf* selectedScript = nullptr;
+            for (ScriptConf* option : scriptOptions)
+            {
+                if (option != nullptr && option->name == _targetScript)
+                {
+                    selectedScript = option;
+                    break;
+                }
+            }
+
+            if (selectedScript == nullptr)
+            {
+                _targetScript.clear();
+                _actionName.clear();
+            }
+
+            const std::string scriptLabel = BuildInspectorFieldLabel("targetScript", _idSuffix);
+            const char* scriptPreview = _targetEntity == nullptr ? "<Select Target Entity>" :
+                (_targetScript.empty() ? "<Select Script>" : _targetScript.c_str());
+
+            ImGui::BeginDisabled(_targetEntity == nullptr);
+            if (ImGui::BeginCombo(scriptLabel.c_str(), scriptPreview))
+            {
+                const bool noneSelected = _targetScript.empty();
+                if (ImGui::Selectable("<None>", noneSelected))
+                {
+                    _targetScript.clear();
+                    _actionName.clear();
+                    selectedScript = nullptr;
+                }
+
+                if (noneSelected)
+                    ImGui::SetItemDefaultFocus();
+
+                for (ScriptConf* option : scriptOptions)
+                {
+                    if (option == nullptr)
+                        continue;
+
+                    const bool isSelected = (_targetScript == option->name);
+                    if (ImGui::Selectable(option->name.c_str(), isSelected))
+                    {
+                        _targetScript = option->name;
+                        selectedScript = option;
+                        _actionName.clear();
+                    }
+
+                    if (isSelected)
+                        ImGui::SetItemDefaultFocus();
+                }
+
+                ImGui::EndCombo();
+            }
+            ImGui::EndDisabled();
+
+            std::vector<std::string> actionOptions = GetConnectedUIActionOptions(selectedScript);
+            const bool hasSelectedAction = std::find(actionOptions.begin(), actionOptions.end(), _actionName) != actionOptions.end();
+            if (!hasSelectedAction)
+                _actionName.clear();
+
+            const std::string actionLabel = BuildInspectorFieldLabel("actionName", _idSuffix);
+            const bool disableActions = selectedScript == nullptr;
+            const char* actionPreview = disableActions ? "<Select Script First>" :
+                (_actionName.empty() ? "<Select Action>" : _actionName.c_str());
+
+            ImGui::BeginDisabled(disableActions);
+            if (ImGui::BeginCombo(actionLabel.c_str(), actionPreview))
+            {
+                const bool noneSelected = _actionName.empty();
+                if (ImGui::Selectable("<None>", noneSelected))
+                    _actionName.clear();
+
+                if (noneSelected)
+                    ImGui::SetItemDefaultFocus();
+
+                for (const std::string& actionName : actionOptions)
+                {
+                    const bool isSelected = (_actionName == actionName);
+                    if (ImGui::Selectable(actionName.c_str(), isSelected))
+                        _actionName = actionName;
+
+                    if (isSelected)
+                        ImGui::SetItemDefaultFocus();
+                }
+
+                ImGui::EndCombo();
+            }
+            ImGui::EndDisabled();
+        }
+#endif
     }
 
     App::~App()
@@ -822,8 +968,12 @@ namespace Canis
 
                 DrawInspectorField(_editor, "active", _conf.name.c_str(), button->active);
                 DrawInspectorField(_editor, "targetEntity", _conf.name.c_str(), button->targetEntity);
+#if CANIS_EDITOR
+                DrawConnectedUIActionSelector(*this, button->targetEntity, button->targetScript, button->actionName, _conf.name.c_str());
+#else
                 DrawInspectorField(_editor, "targetScript", _conf.name.c_str(), button->targetScript);
                 DrawInspectorField(_editor, "actionName", _conf.name.c_str(), button->actionName);
+#endif
                 DrawInspectorField(_editor, "baseColor", _conf.name.c_str(), button->baseColor);
                 DrawInspectorField(_editor, "hoverColor", _conf.name.c_str(), button->hoverColor);
                 DrawInspectorField(_editor, "pressedColor", _conf.name.c_str(), button->pressedColor);
@@ -931,8 +1081,12 @@ namespace Canis
 
                 DrawInspectorField(_editor, "active", _conf.name.c_str(), dropTarget->active);
                 DrawInspectorField(_editor, "targetEntity", _conf.name.c_str(), dropTarget->targetEntity);
+#if CANIS_EDITOR
+                DrawConnectedUIActionSelector(*this, dropTarget->targetEntity, dropTarget->targetScript, dropTarget->actionName, _conf.name.c_str());
+#else
                 DrawInspectorField(_editor, "targetScript", _conf.name.c_str(), dropTarget->targetScript);
                 DrawInspectorField(_editor, "actionName", _conf.name.c_str(), dropTarget->actionName);
+#endif
                 DrawInspectorField(_editor, "acceptedPayloadType", _conf.name.c_str(), dropTarget->acceptedPayloadType);
                 DrawInspectorField(_editor, "baseColor", _conf.name.c_str(), dropTarget->baseColor);
                 DrawInspectorField(_editor, "hoverColor", _conf.name.c_str(), dropTarget->hoverColor);

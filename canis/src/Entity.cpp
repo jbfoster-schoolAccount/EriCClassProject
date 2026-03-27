@@ -294,6 +294,20 @@ unsigned int RectTransform::GetCanvasRenderMode() const
     return CanvasRenderMode::SCREEN_SPACE_CAMERA;
 }
 
+bool RectTransform::IsActiveInHierarchy() const
+{
+    if (entity == nullptr || !entity->active || !active)
+        return false;
+
+    if (entity->HasComponent<Canvas>() && !entity->GetComponent<Canvas>().active)
+        return false;
+
+    if (parent != nullptr && parent->HasComponent<RectTransform>())
+        return parent->GetComponent<RectTransform>().IsActiveInHierarchy();
+
+    return true;
+}
+
 void RectTransform::SetAnchorPreset(RectAnchor _anchor)
 {
     const Vector2 normalizedAnchor = GetNormalizedAnchor(_anchor);

@@ -38,6 +38,10 @@ namespace Canis
     {
     }
 
+    void Editor::StopPlayMode()
+    {
+    }
+
     void Editor::FocusEntity(Canis::Entity* _entity)
     {
         (void)_entity;

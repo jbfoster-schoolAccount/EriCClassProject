@@ -384,6 +384,7 @@ inline void DecodeComponent(PropertyRegistry& _registry, YAML::Node &_node, Cani
     config.DEFAULT_CONSTRUCT(type);                 \
     config.DEFAULT_ADD(type);                       \
     config.DEFAULT_HAS(type);                       \
+    config.DEFAULT_GET(type);                       \
     config.DEFAULT_REMOVE(type);                    \
     config.DEFAULT_ENCODE(config, type);            \
     config.DEFAULT_DECODE(config, type);            \
@@ -399,6 +400,7 @@ inline void DecodeComponent(PropertyRegistry& _registry, YAML::Node &_node, Cani
         (void)_entity.AddScript<type>();                \
     };                                                  \
     config.DEFAULT_HAS(type);                           \
+    config.DEFAULT_GET(type);                           \
     config.DEFAULT_REMOVE(type);                        \
     config.DEFAULT_ENCODE(config, type);                \
     config.DEFAULT_DECODE(config, type);                \

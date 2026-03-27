@@ -187,6 +187,14 @@ namespace Canis
         m_entities.clear();
         m_registry.clear();
         m_paused = false;
+        m_entitiesToReady.clear();
+        m_entitiesToDestroy.clear();
+        m_targetUUIDNewUUID.clear();
+        m_entityConnectInfo.clear();
+        m_isUpdating = false;
+        m_isLoadingEntityNodes = false;
+        m_environmentSkyboxUUID = UUID(0);
+        ClearEditorCameraOverrides();
 
         for (System* system : m_systems)
         {
@@ -390,6 +398,19 @@ namespace Canis
         }
 
         m_isLoadingEntityNodes = false;
+
+        if (!m_entitiesToDestroy.empty())
+        {
+            std::vector<int> pendingDestroyIds = m_entitiesToDestroy;
+            m_entitiesToDestroy.clear();
+
+            std::sort(pendingDestroyIds.begin(), pendingDestroyIds.end());
+            pendingDestroyIds.erase(std::unique(pendingDestroyIds.begin(), pendingDestroyIds.end()), pendingDestroyIds.end());
+
+            for (const int id : pendingDestroyIds)
+                DestroyNow(id);
+        }
+
         return newEntitys;
     }
 

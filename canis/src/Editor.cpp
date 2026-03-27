@@ -46,6 +46,8 @@ namespace Canis
 
     namespace
     {
+        YAML::Node g_lastPlaySceneNode;
+
         struct RectTransformRenderBounds
         {
             Vector2 min = Vector2(0.0f);
@@ -633,6 +635,20 @@ namespace Canis
         //ImGui::Render();
         //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 #endif
+    }
+
+    void Editor::StopPlayMode()
+    {
+        if (m_mode != EditorMode::PLAY && m_mode != EditorMode::PAUSE)
+            return;
+
+        if (!g_lastPlaySceneNode || m_scene == nullptr || m_app == nullptr)
+            return;
+
+        Time::SetTargetFPS(Canis::GetProjectConfig().frameLimitEditor + 0.0f);
+        m_mode = EditorMode::EDIT;
+        m_scene->Unload();
+        m_scene->LoadSceneNode(m_app->GetScriptRegistry(), g_lastPlaySceneNode);
     }
 
     void Editor::DrawSceneView()
@@ -1886,6 +1902,9 @@ namespace Canis
         {
             Entity &entity = *entities[m_index];
 
+            ImGui::Text("active:");
+            ImGui::SameLine();
+            ImGui::Checkbox("##entity_active", &entity.active);
             ImGui::Text("name: ");
             ImGui::SameLine();
             ImGui::InputText("##name", &entity.name);
@@ -2836,7 +2855,6 @@ namespace Canis
 
     void Editor::DrawEditorPanel()
     {
-        static YAML::Node lastSceneNode;
         static float hotKeyCoolDown = 0.0f;
         const float HOTKEYRESET = 0.1f;
 
@@ -2859,7 +2877,7 @@ namespace Canis
                 else
                     Time::SetTargetFPS(100000.0f);
                 // save copy of scene
-                lastSceneNode = m_scene->EncodeScene(m_app->GetScriptRegistry());
+                g_lastPlaySceneNode = m_scene->EncodeScene(m_app->GetScriptRegistry());
 
                 m_mode = EditorMode::PLAY;
             }
@@ -2871,14 +2889,14 @@ namespace Canis
                 m_assetPaths = FindFilesInFolder("assets", "");
 
                 // save copy of scene
-                lastSceneNode = m_scene->EncodeScene(m_app->GetScriptRegistry());
+                g_lastPlaySceneNode = m_scene->EncodeScene(m_app->GetScriptRegistry());
 
                 // unload data
                 m_scene->Unload();
 
                 GameCodeObjectWatchFile(m_gameSharedLib, m_app);
 
-                m_scene->LoadSceneNode(m_app->GetScriptRegistry(), lastSceneNode);
+                m_scene->LoadSceneNode(m_app->GetScriptRegistry(), g_lastPlaySceneNode);
             }
         }
         else
@@ -2905,11 +2923,7 @@ namespace Canis
             if (ImGui::Button("Stop##ScenePanel") || (ImGui::IsKeyDown(ImGuiKey_Q) && ImGui::IsKeyDown(ImGuiKey_LeftCtrl) && hotKeyCoolDown < 0.0f))
             {
                 hotKeyCoolDown = HOTKEYRESET;
-                Time::SetTargetFPS(Canis::GetProjectConfig().frameLimitEditor + 0.0f);
-                m_mode = EditorMode::EDIT;
-                // restore from copy
-                m_scene->Unload();
-                m_scene->LoadSceneNode(m_app->GetScriptRegistry(), lastSceneNode);
+                StopPlayMode();
             }
         }
 
