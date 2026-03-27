@@ -30,6 +30,16 @@ inline void AddRequiredScripts(Entity& _entity)
     (_entity.scene.app->AddRequiredScript(_entity, Ts::ScriptName), ...);
 }
 
+template <typename ScriptType>
+inline void RegisterUIAction(ScriptConf& _conf, const std::string& _name, void (ScriptType::*_func)(const UIActionContext&))
+{
+    _conf.uiActions[_name] = [_func](ScriptableEntity& _script, const UIActionContext& _context) -> void
+    {
+        if (ScriptType* typedScript = dynamic_cast<ScriptType*>(&_script))
+            (typedScript->*_func)(_context);
+    };
+}
+
 template <typename Component>
 inline Entity& GetRegisteredPropertyOwnerEntity(Component& _component)
 {

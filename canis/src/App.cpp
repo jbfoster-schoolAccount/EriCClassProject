@@ -183,6 +183,9 @@ namespace Canis
         if (!inputManager.Update((void *)&window))
             return false;
 
+        if (window.ShouldClose())
+            return false;
+
         if (window.IsResized())
         {
             if (runtime.editorRuntimeEnabled)
@@ -762,6 +765,181 @@ namespace Canis
         };
 
         RegisterScript(textConf);
+
+        ScriptConf buttonConf = {
+            .name = "Canis::UIButton",
+            .Construct = nullptr,
+            .Add = [this](Entity& _entity) -> void {
+                if (!_entity.HasComponent<RectTransform>())
+                    _entity.AddComponent<RectTransform>();
+                _entity.AddComponent<UIButton>();
+            },
+            .Has = [this](Entity& _entity) -> bool { return _entity.HasComponent<UIButton>(); },
+            .Remove = [this](Entity& _entity) -> void { _entity.RemoveComponent<UIButton>(); },
+            .Get = [this](Entity& _entity) -> void* { return _entity.HasComponent<UIButton>() ? (void*)(&_entity.GetComponent<UIButton>()) : nullptr; },
+            .Encode = [](YAML::Node &_node, Entity &_entity) -> void {
+                if (UIButton* button = _entity.HasComponent<UIButton>() ? &_entity.GetComponent<UIButton>() : nullptr)
+                {
+                    YAML::Node comp;
+                    comp["active"] = button->active;
+                    comp["targetEntity"] = (button->targetEntity == nullptr) ? Canis::UUID(0) : button->targetEntity->uuid;
+                    comp["targetScript"] = button->targetScript;
+                    comp["actionName"] = button->actionName;
+                    comp["baseColor"] = button->baseColor;
+                    comp["hoverColor"] = button->hoverColor;
+                    comp["pressedColor"] = button->pressedColor;
+                    comp["baseScale"] = button->baseScale;
+                    comp["hoverScale"] = button->hoverScale;
+                    comp["pressedScale"] = button->pressedScale;
+                    _node["Canis::UIButton"] = comp;
+                }
+            },
+            .Decode = [](YAML::Node &_node, Entity &_entity, bool _callCreate) -> void {
+                if (YAML::Node comp = _node["Canis::UIButton"])
+                {
+                    UIButton& button = *_entity.AddComponent<UIButton>();
+                    button.active = comp["active"].as<bool>(true);
+                    button.targetScript = comp["targetScript"].as<std::string>("");
+                    button.actionName = comp["actionName"].as<std::string>("");
+                    button.baseColor = comp["baseColor"].as<Vector4>(Color(1.0f));
+                    button.hoverColor = comp["hoverColor"].as<Vector4>(Color(1.0f));
+                    button.pressedColor = comp["pressedColor"].as<Vector4>(Color(0.85f, 0.85f, 0.85f, 1.0f));
+                    button.baseScale = comp["baseScale"].as<float>(1.0f);
+                    button.hoverScale = comp["hoverScale"].as<float>(1.03f);
+                    button.pressedScale = comp["pressedScale"].as<float>(0.98f);
+
+                    if (comp["targetEntity"].as<Canis::UUID>(0) != Canis::UUID(0))
+                        _entity.scene.GetEntityAfterLoad(comp["targetEntity"].as<Canis::UUID>(0), button.targetEntity);
+
+                    if (_callCreate)
+                        button.Create();
+                }
+            },
+            .DrawInspector = [this](Editor& _editor, Entity& _entity, const ScriptConf& _conf) -> void {
+                UIButton* button = _entity.HasComponent<UIButton>() ? &_entity.GetComponent<UIButton>() : nullptr;
+                if (button == nullptr)
+                    return;
+
+                DrawInspectorField(_editor, "active", _conf.name.c_str(), button->active);
+                DrawInspectorField(_editor, "targetEntity", _conf.name.c_str(), button->targetEntity);
+                DrawInspectorField(_editor, "targetScript", _conf.name.c_str(), button->targetScript);
+                DrawInspectorField(_editor, "actionName", _conf.name.c_str(), button->actionName);
+                DrawInspectorField(_editor, "baseColor", _conf.name.c_str(), button->baseColor);
+                DrawInspectorField(_editor, "hoverColor", _conf.name.c_str(), button->hoverColor);
+                DrawInspectorField(_editor, "pressedColor", _conf.name.c_str(), button->pressedColor);
+                DrawInspectorField(_editor, "baseScale", _conf.name.c_str(), button->baseScale);
+                DrawInspectorField(_editor, "hoverScale", _conf.name.c_str(), button->hoverScale);
+                DrawInspectorField(_editor, "pressedScale", _conf.name.c_str(), button->pressedScale);
+            },
+        };
+
+        RegisterScript(buttonConf);
+
+        ScriptConf dragSourceConf = {
+            .name = "Canis::UIDragSource",
+            .Construct = nullptr,
+            .Add = [this](Entity& _entity) -> void {
+                if (!_entity.HasComponent<RectTransform>())
+                    _entity.AddComponent<RectTransform>();
+                _entity.AddComponent<UIDragSource>();
+            },
+            .Has = [this](Entity& _entity) -> bool { return _entity.HasComponent<UIDragSource>(); },
+            .Remove = [this](Entity& _entity) -> void { _entity.RemoveComponent<UIDragSource>(); },
+            .Get = [this](Entity& _entity) -> void* { return _entity.HasComponent<UIDragSource>() ? (void*)(&_entity.GetComponent<UIDragSource>()) : nullptr; },
+            .Encode = [](YAML::Node &_node, Entity &_entity) -> void {
+                if (UIDragSource* dragSource = _entity.HasComponent<UIDragSource>() ? &_entity.GetComponent<UIDragSource>() : nullptr)
+                {
+                    YAML::Node comp;
+                    comp["active"] = dragSource->active;
+                    comp["payloadType"] = dragSource->payloadType;
+                    comp["payloadValue"] = dragSource->payloadValue;
+                    _node["Canis::UIDragSource"] = comp;
+                }
+            },
+            .Decode = [](YAML::Node &_node, Entity &_entity, bool _callCreate) -> void {
+                if (YAML::Node comp = _node["Canis::UIDragSource"])
+                {
+                    UIDragSource& dragSource = *_entity.AddComponent<UIDragSource>();
+                    dragSource.active = comp["active"].as<bool>(true);
+                    dragSource.payloadType = comp["payloadType"].as<std::string>("");
+                    dragSource.payloadValue = comp["payloadValue"].as<std::string>("");
+
+                    if (_callCreate)
+                        dragSource.Create();
+                }
+            },
+            .DrawInspector = [this](Editor& _editor, Entity& _entity, const ScriptConf& _conf) -> void {
+                UIDragSource* dragSource = _entity.HasComponent<UIDragSource>() ? &_entity.GetComponent<UIDragSource>() : nullptr;
+                if (dragSource == nullptr)
+                    return;
+
+                DrawInspectorField(_editor, "active", _conf.name.c_str(), dragSource->active);
+                DrawInspectorField(_editor, "payloadType", _conf.name.c_str(), dragSource->payloadType);
+                DrawInspectorField(_editor, "payloadValue", _conf.name.c_str(), dragSource->payloadValue);
+            },
+        };
+
+        RegisterScript(dragSourceConf);
+
+        ScriptConf dropTargetConf = {
+            .name = "Canis::UIDropTarget",
+            .Construct = nullptr,
+            .Add = [this](Entity& _entity) -> void {
+                if (!_entity.HasComponent<RectTransform>())
+                    _entity.AddComponent<RectTransform>();
+                _entity.AddComponent<UIDropTarget>();
+            },
+            .Has = [this](Entity& _entity) -> bool { return _entity.HasComponent<UIDropTarget>(); },
+            .Remove = [this](Entity& _entity) -> void { _entity.RemoveComponent<UIDropTarget>(); },
+            .Get = [this](Entity& _entity) -> void* { return _entity.HasComponent<UIDropTarget>() ? (void*)(&_entity.GetComponent<UIDropTarget>()) : nullptr; },
+            .Encode = [](YAML::Node &_node, Entity &_entity) -> void {
+                if (UIDropTarget* dropTarget = _entity.HasComponent<UIDropTarget>() ? &_entity.GetComponent<UIDropTarget>() : nullptr)
+                {
+                    YAML::Node comp;
+                    comp["active"] = dropTarget->active;
+                    comp["targetEntity"] = (dropTarget->targetEntity == nullptr) ? Canis::UUID(0) : dropTarget->targetEntity->uuid;
+                    comp["targetScript"] = dropTarget->targetScript;
+                    comp["actionName"] = dropTarget->actionName;
+                    comp["acceptedPayloadType"] = dropTarget->acceptedPayloadType;
+                    comp["baseColor"] = dropTarget->baseColor;
+                    comp["hoverColor"] = dropTarget->hoverColor;
+                    _node["Canis::UIDropTarget"] = comp;
+                }
+            },
+            .Decode = [](YAML::Node &_node, Entity &_entity, bool _callCreate) -> void {
+                if (YAML::Node comp = _node["Canis::UIDropTarget"])
+                {
+                    UIDropTarget& dropTarget = *_entity.AddComponent<UIDropTarget>();
+                    dropTarget.active = comp["active"].as<bool>(true);
+                    dropTarget.targetScript = comp["targetScript"].as<std::string>("");
+                    dropTarget.actionName = comp["actionName"].as<std::string>("");
+                    dropTarget.acceptedPayloadType = comp["acceptedPayloadType"].as<std::string>("");
+                    dropTarget.baseColor = comp["baseColor"].as<Vector4>(Color(1.0f));
+                    dropTarget.hoverColor = comp["hoverColor"].as<Vector4>(Color(1.0f));
+
+                    if (comp["targetEntity"].as<Canis::UUID>(0) != Canis::UUID(0))
+                        _entity.scene.GetEntityAfterLoad(comp["targetEntity"].as<Canis::UUID>(0), dropTarget.targetEntity);
+
+                    if (_callCreate)
+                        dropTarget.Create();
+                }
+            },
+            .DrawInspector = [this](Editor& _editor, Entity& _entity, const ScriptConf& _conf) -> void {
+                UIDropTarget* dropTarget = _entity.HasComponent<UIDropTarget>() ? &_entity.GetComponent<UIDropTarget>() : nullptr;
+                if (dropTarget == nullptr)
+                    return;
+
+                DrawInspectorField(_editor, "active", _conf.name.c_str(), dropTarget->active);
+                DrawInspectorField(_editor, "targetEntity", _conf.name.c_str(), dropTarget->targetEntity);
+                DrawInspectorField(_editor, "targetScript", _conf.name.c_str(), dropTarget->targetScript);
+                DrawInspectorField(_editor, "actionName", _conf.name.c_str(), dropTarget->actionName);
+                DrawInspectorField(_editor, "acceptedPayloadType", _conf.name.c_str(), dropTarget->acceptedPayloadType);
+                DrawInspectorField(_editor, "baseColor", _conf.name.c_str(), dropTarget->baseColor);
+                DrawInspectorField(_editor, "hoverColor", _conf.name.c_str(), dropTarget->hoverColor);
+            },
+        };
+
+        RegisterScript(dropTargetConf);
 
         ScriptConf camera2DConf = {
             .name = "Canis::Camera2D",
@@ -2007,6 +2185,41 @@ namespace Canis
         }
 
         return nullptr;
+    }
+
+    bool App::DispatchUIAction(Entity& _targetEntity, const std::string& _scriptName, const std::string& _actionName, const UIActionContext& _context)
+    {
+        if (_actionName.empty())
+            return false;
+
+        auto invokeAction = [&](ScriptConf& _conf) -> bool
+        {
+            auto actionIt = _conf.uiActions.find(_actionName);
+            if (actionIt == _conf.uiActions.end() || _conf.Get == nullptr)
+                return false;
+
+            if (ScriptableEntity* script = static_cast<ScriptableEntity*>(_conf.Get(_targetEntity)))
+            {
+                actionIt->second(*script, _context);
+                return true;
+            }
+
+            return false;
+        };
+
+        if (!_scriptName.empty())
+        {
+            if (ScriptConf* conf = GetScriptConf(_scriptName))
+                return invokeAction(*conf);
+
+            return false;
+        }
+
+        bool handled = false;
+        for (ScriptConf& conf : m_scriptRegistry)
+            handled = invokeAction(conf) || handled;
+
+        return handled;
     }
 
     bool App::AddRequiredScript(Entity& _entity, const std::string& _name)

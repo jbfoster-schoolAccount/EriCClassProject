@@ -9,6 +9,7 @@
 #include <Canis/Window.hpp>
 #include <Canis/ECS/Systems/SpriteAnimationSystem.hpp>
 #include <Canis/ECS/Systems/SpriteRenderer2DSystem.hpp>
+#include <Canis/ECS/Systems/UIInteractionSystem.hpp>
 #include <Canis/ECS/Systems/ModelAnimation3DSystem.hpp>
 #include <Canis/ECS/Systems/MeshRenderer3DSystem.hpp>
 #include <Canis/ECS/Systems/JoltPhysics3DSystem.hpp>
@@ -42,6 +43,7 @@ namespace Canis
         m_window = _window;
         m_inputManager = _inputManger;
         m_path = _path;
+        m_paused = false;
         ClearEditorCameraOverrides();
 
         // TODO resizing breaks components
@@ -98,6 +100,9 @@ namespace Canis
 
         for (System* system : m_updateSystems)
         {
+            if (m_paused && !system->UpdateWhenPaused())
+                continue;
+
             const Uint64 start = SDL_GetTicksNS();
             system->Update(m_registry, _deltaTime);
             const float elapsedMs = static_cast<float>(SDL_GetTicksNS() - start) / 1000000.0f;
@@ -139,7 +144,12 @@ namespace Canis
             {
                 ScriptableEntity* se = scripts[j];
                 if (se && se->m_onReadyCalled)
+                {
+                    if (m_paused && !se->UpdateWhenPaused())
+                        continue;
+
                     se->Update(_deltaTime);
+                }
             }
         }
 
@@ -176,6 +186,7 @@ namespace Canis
 
         m_entities.clear();
         m_registry.clear();
+        m_paused = false;
 
         for (System* system : m_systems)
         {
@@ -209,10 +220,12 @@ namespace Canis
     {
         CreateRenderSystem<Canis::MeshRenderer3DSystem>();
         CreateRenderSystem<Canis::SpriteRenderer2DSystem>();
+        CreateSystem<Canis::UIInteractionSystem>();
         CreateSystem<Canis::ModelAnimation3DSystem>();
         CreateSystem<Canis::SpriteAnimationSystem>();
         CreateSystem<Canis::JoltPhysics3DSystem>();
         m_environmentSkyboxUUID = UUID(0);
+        m_paused = false;
         
         for (System* system : m_systems)
         {

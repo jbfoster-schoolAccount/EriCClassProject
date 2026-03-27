@@ -28,6 +28,7 @@ public:
 
     ScriptConf* GetScriptConf(const std::string& _name);
     bool AddRequiredScript(Entity& _entity, const std::string& _name);
+    bool DispatchUIAction(Entity& _targetEntity, const std::string& _scriptName, const std::string& _actionName, const UIActionContext& _context);
 
     Editor& GetEditor() { return *m_editor; }
 

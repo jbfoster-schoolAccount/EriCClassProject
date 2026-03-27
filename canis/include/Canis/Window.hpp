@@ -29,6 +29,8 @@ namespace Canis
         void LockMouse(bool _lock);
         void CenterMouse();
         void SetMousePosition(int _x, int _y);
+        void RequestClose() { m_shouldClose = true; }
+        bool ShouldClose() const { return m_shouldClose; }
 
         void Clear() const;
         void SetClearColor(Color _color);

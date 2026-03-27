@@ -1,6 +1,6 @@
 #include <Machines/Furnace.hpp>
 
-#include <SuperPupUtilities/Inventory.hpp>
+#include <UI/GameUIController.hpp>
 
 #include <Canis/App.hpp>
 #include <Canis/ConfigHelper.hpp>
@@ -12,6 +12,7 @@ void RegisterFurnaceScript(App& _app)
 {
     DEFAULT_CONFIG(furnaceConf, Furnace);
     REGISTER_PROPERTY(furnaceConf, Furnace, goldOreCount);
+    REGISTER_PROPERTY(furnaceConf, Furnace, uraniumFuelCount);
     REGISTER_PROPERTY(furnaceConf, Furnace, timeLeft);
     REGISTER_PROPERTY(furnaceConf, Furnace, processingTime);
     REGISTER_PROPERTY(furnaceConf, Furnace, dropPrefab);
@@ -42,9 +43,6 @@ void Furnace::Update(float _dt) {
         timeLeft = 0.0f;
         goldOreCount--;
 
-        if (goldOreCount > 0)
-            timeLeft = processingTime;
-
         Vector3 spawnOffset = entity.GetComponent<Transform>().GetGlobalPosition() + Vector3(0.0f, 0.0f, 1.0f);
 
         for (Entity *root : entity.scene.Instantiate(dropPrefab))
@@ -52,16 +50,32 @@ void Furnace::Update(float _dt) {
             if (root != nullptr && root->HasComponent<Transform>())
                 root->GetComponent<Transform>().position += spawnOffset;
         }
+
+        TryStartProcessing();
     }
+}
+
+void Furnace::TryStartProcessing()
+{
+    if (timeLeft > 0.0f)
+        return;
+
+    if (goldOreCount <= 0 || uraniumFuelCount <= 0)
+        return;
+
+    uraniumFuelCount--;
+    timeLeft = processingTime;
 }
 
 std::string Furnace::GetMessage(const InteractionContext &_context)
 {
     (void)_context;
-    std::string message = "Left Click to add Gold Ore.";
+    std::string message = "Left Click to open Furnace.";
 
     if (timeLeft > 0.0f)
-        message = "Processing 1 of " + std::to_string(goldOreCount) + "\n" + message;
+        message = "Processing\nOre " + std::to_string(goldOreCount) + " Fuel " + std::to_string(uraniumFuelCount) + "\n" + message;
+    else
+        message = "Ore " + std::to_string(goldOreCount) + " Fuel " + std::to_string(uraniumFuelCount) + "\n" + message;
 
     return message;
 }
@@ -75,15 +89,11 @@ bool Furnace::HandleInteraction(const InteractionContext &_context)
     if (_context.interactingEntity == nullptr)
         return false;
 
-    if (SuperPupUtilities::Inventory* inventory = _context.interactingEntity->GetScript<SuperPupUtilities::Inventory>())
+    if (Canis::Entity* hudCanvas = entity.scene.FindEntityWithName("HUD_Canvas"))
     {
-        if (inventory->Remove("Gold Ore", 1))
+        if (GameUIController* gameUI = hudCanvas->GetScript<GameUIController>())
         {
-            goldOreCount++;
-
-            if (timeLeft == 0.0f)
-                timeLeft = processingTime;
-
+            gameUI->OpenFurnace(entity, *_context.interactingEntity);
             return true;
         }
     }

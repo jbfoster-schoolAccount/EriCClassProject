@@ -71,11 +71,6 @@ void PlayerController::Update(float _dt)
 
     Vector3 inputDirection = Vector3(0.0f);
 
-    if (input.JustPressedKey(Key::ESCAPE))
-    {
-        window.LockMouse(!window.IsMouseLocked());
-    }
-
     //if (!window.IsMouseLocked() && input.JustLeftClicked())
     //{
     //    window.LockMouse(true);

@@ -20,6 +20,7 @@ public:
     void Ready();
     void Destroy();
     void Update(float _dt);
+    bool UpdateWhenPaused() const override { return true; }
 
 private:
     struct SlotView

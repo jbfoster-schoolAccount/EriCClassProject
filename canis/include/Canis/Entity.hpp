@@ -217,6 +217,7 @@ namespace Canis
         virtual void Ready() {}
         virtual void Destroy() {}
         virtual void Update(float _dt) {}
+        virtual bool UpdateWhenPaused() const { return false; }
     };
 
     enum RectAnchor
@@ -1213,6 +1214,69 @@ namespace Canis
         unsigned int alignment = TextAlignment::LEFT;
         unsigned int horizontalBoundary = TextBoundary::TB_OVERFLOW;
         unsigned int _status = BIT::ONE;
+    };
+
+    struct UIButton
+    {
+    public:
+        static constexpr const char* ScriptName = "Canis::UIButton";
+
+        UIButton() = default;
+        explicit UIButton(Canis::Entity &_entity) : entity(&_entity) {}
+        Entity* entity = nullptr;
+        void Create() {}
+
+        bool active = true;
+        Entity* targetEntity = nullptr;
+        std::string targetScript = "";
+        std::string actionName = "";
+        Color baseColor = Color(1.0f);
+        Color hoverColor = Color(1.0f);
+        Color pressedColor = Color(0.85f, 0.85f, 0.85f, 1.0f);
+        float baseScale = 1.0f;
+        float hoverScale = 1.03f;
+        float pressedScale = 0.98f;
+        bool hovered = false;
+        bool pressed = false;
+    };
+
+    struct UIDragSource
+    {
+    public:
+        static constexpr const char* ScriptName = "Canis::UIDragSource";
+
+        UIDragSource() = default;
+        explicit UIDragSource(Canis::Entity &_entity) : entity(&_entity) {}
+        Entity* entity = nullptr;
+        void Create() {}
+
+        bool active = true;
+        std::string payloadType = "";
+        std::string payloadValue = "";
+        bool dragging = false;
+        Vector2 dragOffset = Vector2(0.0f);
+        Vector2 originalPosition = Vector2(0.0f);
+        float originalDepth = 0.0f;
+    };
+
+    struct UIDropTarget
+    {
+    public:
+        static constexpr const char* ScriptName = "Canis::UIDropTarget";
+
+        UIDropTarget() = default;
+        explicit UIDropTarget(Canis::Entity &_entity) : entity(&_entity) {}
+        Entity* entity = nullptr;
+        void Create() {}
+
+        bool active = true;
+        Entity* targetEntity = nullptr;
+        std::string targetScript = "";
+        std::string actionName = "";
+        std::string acceptedPayloadType = "";
+        Color baseColor = Color(1.0f);
+        Color hoverColor = Color(1.0f);
+        bool hovered = false;
     };
 
     struct Camera2D

@@ -139,6 +139,7 @@ Entities:
         - 6129844738291023402
         - 4317909316194178768
         - 6866326957864295295
+    GameUIController: ~
   - Entity: 6648734122906130673
     Name: FPS_Counter
     Tag: ""

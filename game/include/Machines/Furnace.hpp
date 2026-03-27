@@ -12,6 +12,7 @@ public:
     static constexpr const char* ScriptName = "Furnace";
 
     int goldOreCount = 0;
+    int uraniumFuelCount = 0;
     float timeLeft = 0.0f;
     float processingTime = 5.0f;
     Canis::SceneAssetHandle dropPrefab;
@@ -22,6 +23,7 @@ public:
     void Ready();
     void Destroy();
     void Update(float _dt);
+    void TryStartProcessing();
 
     std::string GetMessage(const InteractionContext &_context) override;
     bool HandleInteraction(const InteractionContext &_context) override;
