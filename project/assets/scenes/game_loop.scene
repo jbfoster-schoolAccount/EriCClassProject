@@ -8,10 +8,10 @@ Entities:
     Tag: MainCamera
     Canis::Transform:
       active: true
-      position: [0, 0.8, 0]
-      rotation: [0, 0, 0]
+      position: [0, 8, 10]
+      rotation: [-0.62, 0, 0]
       scale: [1, 1, 1]
-      parent: 7544183909755889777
+      parent: 0
       children:
         []
     Canis::Camera:
@@ -25,14 +25,14 @@ Entities:
     Canis::DirectionalLight:
       enabled: true
       color: [1, 0.97, 0.92, 1]
-      intensity: 1.8
+      intensity: 5
       direction: [-0.35, -1, -0.2]
   - Entity: 910010
     Name: Ground
     Tag: ""
     Canis::Transform:
       active: true
-      position: [0, -11, 0]
+      position: [0, -0.5, 0]
       rotation: [0, 0, 0]
       scale: [24, 1, 24]
       parent: 0
@@ -66,7 +66,565 @@ Entities:
     Canis::Model:
       color: [0.32, 0.38, 0.46, 1]
       ModelAsset:
+        path: assets/models/physics_cube.glb
         uuid: 17154083321347000101
+  - Entity: 910011
+    Name: Wall_North
+    Tag: ""
+    Canis::Transform:
+      active: true
+      position: [0, 1, -12]
+      rotation: [0, 0, 0]
+      scale: [24, 2, 1]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.7
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: true
+      isSensor: false
+      layer: 1
+      mask: 4294967295
+      allowSleeping: true
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [0.2, 0.22, 0.28, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [0.2, 0.22, 0.28, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+  - Entity: 910012
+    Name: Wall_South
+    Tag: ""
+    Canis::Transform:
+      active: true
+      position: [0, 1, 12]
+      rotation: [0, 0, 0]
+      scale: [24, 2, 1]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.7
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: true
+      isSensor: false
+      layer: 1
+      mask: 4294967295
+      allowSleeping: true
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [0.2, 0.22, 0.28, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [0.2, 0.22, 0.28, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+  - Entity: 910013
+    Name: Wall_West
+    Tag: ""
+    Canis::Transform:
+      active: true
+      position: [-12, 1, 0]
+      rotation: [0, 0, 0]
+      scale: [1, 2, 24]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.7
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: true
+      isSensor: false
+      layer: 1
+      mask: 4294967295
+      allowSleeping: true
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [0.2, 0.22, 0.28, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [0.2, 0.22, 0.28, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+  - Entity: 910014
+    Name: Wall_East
+    Tag: ""
+    Canis::Transform:
+      active: true
+      position: [12, 1, 0]
+      rotation: [0, 0, 0]
+      scale: [1, 2, 24]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.7
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: true
+      isSensor: false
+      layer: 1
+      mask: 4294967295
+      allowSleeping: true
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [0.2, 0.22, 0.28, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [0.2, 0.22, 0.28, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+  - Entity: 910020
+    Name: Player
+    Tag: Player
+    Canis::Transform:
+      active: true
+      position: [0, 1, 0]
+      rotation: [0, 0, 0]
+      scale: [1, 1, 1]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 2
+      mass: 1
+      friction: 0.25
+      restitution: 0
+      linearDamping: 1.8
+      angularDamping: 0.9
+      useGravity: true
+      isSensor: false
+      layer: 2
+      mask: 4294967295
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::SphereCollider:
+      active: true
+      radius: 0.5
+    Canis::Material:
+      color: [0.2, 0.55, 1, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [0.2, 0.55, 1, 1]
+      ModelAsset:
+        path: assets/models/physics_sphere.glb
+        uuid: 17154083321347000102
+    RollABall::PlayerController:
+      moveForce: 3000
+      jumpImpulse: 7.5
+      groundCheckDistance: 0.75
+      groundCollisionMask: 1
+      pickupRadius: 1.15
+      logProgress: true
+      sprint: false
+  - Entity: 910100
+    Name: Pickup_00
+    Tag: Pickup
+    Canis::Transform:
+      active: true
+      position: [-6, 0.8, -6]
+      rotation: [0, 0, 0]
+      scale: [0.7, 0.7, 0.7]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: true
+      layer: 4
+      mask: 4294967295
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [1, 0.87, 0.22, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 0.87, 0.22, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+    RollABall::PickupSpinner:
+      spinSpeedDegrees: 120
+  - Entity: 910101
+    Name: Pickup_01
+    Tag: Pickup
+    Canis::Transform:
+      active: true
+      position: [0, 0.8, -6]
+      rotation: [0, 0, 0]
+      scale: [0.7, 0.7, 0.7]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: true
+      layer: 4
+      mask: 4294967295
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [1, 0.87, 0.22, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 0.87, 0.22, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+    RollABall::PickupSpinner:
+      spinSpeedDegrees: 120
+  - Entity: 910102
+    Name: Pickup_02
+    Tag: Pickup
+    Canis::Transform:
+      active: true
+      position: [6, 0.8, -6]
+      rotation: [0, 0, 0]
+      scale: [0.7, 0.7, 0.7]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: true
+      layer: 4
+      mask: 4294967295
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [1, 0.87, 0.22, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 0.87, 0.22, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+    RollABall::PickupSpinner:
+      spinSpeedDegrees: 120
+  - Entity: 910103
+    Name: Pickup_03
+    Tag: Pickup
+    Canis::Transform:
+      active: true
+      position: [-6, 0.8, 0]
+      rotation: [0, 0, 0]
+      scale: [0.7, 0.7, 0.7]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: true
+      layer: 4
+      mask: 4294967295
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [1, 0.87, 0.22, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 0.87, 0.22, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+    RollABall::PickupSpinner:
+      spinSpeedDegrees: 120
+  - Entity: 910104
+    Name: Pickup_04
+    Tag: Pickup
+    Canis::Transform:
+      active: true
+      position: [6, 0.8, 0]
+      rotation: [0, 0, 0]
+      scale: [0.7, 0.7, 0.7]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: true
+      layer: 4
+      mask: 4294967295
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [1, 0.87, 0.22, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 0.87, 0.22, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+    RollABall::PickupSpinner:
+      spinSpeedDegrees: 120
+  - Entity: 910105
+    Name: Pickup_05
+    Tag: Pickup
+    Canis::Transform:
+      active: true
+      position: [-6, 0.8, 6]
+      rotation: [0, 0, 0]
+      scale: [0.7, 0.7, 0.7]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: true
+      layer: 4
+      mask: 4294967295
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [1, 0.87, 0.22, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 0.87, 0.22, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+    RollABall::PickupSpinner:
+      spinSpeedDegrees: 120
+  - Entity: 910106
+    Name: Pickup_06
+    Tag: Pickup
+    Canis::Transform:
+      active: true
+      position: [0, 0.8, 6]
+      rotation: [0, 0, 0]
+      scale: [0.7, 0.7, 0.7]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: true
+      layer: 4
+      mask: 4294967295
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [1, 0.87, 0.22, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 0.87, 0.22, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+    RollABall::PickupSpinner:
+      spinSpeedDegrees: 120
+  - Entity: 910107
+    Name: Pickup_07
+    Tag: Pickup
+    Canis::Transform:
+      active: true
+      position: [6, 0.8, 6]
+      rotation: [0, 0, 0]
+      scale: [0.7, 0.7, 0.7]
+      parent: 0
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: true
+      layer: 4
+      mask: 4294967295
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [1, 0.87, 0.22, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 0.87, 0.22, 1]
+      ModelAsset:
+        path: assets/models/physics_cube.glb
+        uuid: 17154083321347000101
+    RollABall::PickupSpinner:
+      spinSpeedDegrees: 120
   - Entity: 7448487586354055887
     Name: BoostPad
     Tag: ""
@@ -89,7 +647,7 @@ Entities:
       useGravity: false
       isSensor: true
       layer: 8
-      mask: 2
+      mask: 4294967295
       allowSleeping: false
       lockRotationX: false
       lockRotationY: false
@@ -106,1646 +664,9 @@ Entities:
     Canis::Model:
       color: [1, 1, 1, 1]
       ModelAsset:
+        path: assets/models/physics_cube.glb
         uuid: 17154083321347000101
-    BoostPad:
+    RollABall::BoostPad:
       yeetForce: 10
-  - Entity: 9658217481396747486
-    Name: Camera2D
-    Tag: ""
-    Canis::Camera2D:
-      position: [0, 0]
-      scale: 1
-  - Entity: 6129844738291023401
-    Name: HUD_Canvas
-    Tag: ""
-    Canis::Canvas:
-      active: true
-      renderMode: 0
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [0, 0]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 0
-      children:
-        - 6648734122906130673
-        - 6129844738291023402
-        - 4317909316194178768
-        - 6866326957864295295
-        - 4729520178907626757
-        - 17359432889461608361
-    GameUIController: ~
-  - Entity: 6648734122906130673
-    Name: FPS_Counter
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, -18]
-      size: [70, 33]
-      scale: [1, 1]
-      anchorMin: [0.5, 1]
-      anchorMax: [0.5, 1]
-      pivot: [0.5, 1]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023401
-      children:
-        []
-    Canis::Text:
-      text: "FPS: 0"
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 32
-    SuperPupUtilities::FPSCounter: ~
-  - Entity: 6129844738291023402
-    Name: Inventory_Bar
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 24]
-      size: [518, 56]
-      scale: [1, 1]
-      anchorMin: [0.5, 0]
-      anchorMax: [0.5, 0]
-      pivot: [0.5, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023401
-      children:
-        - 2204813574240534813
-        - 3855195171089961147
-        - 5202672042202249096
-        - 8553269334490750129
-        - 1670742994835074695
-        - 4358385035118765411
-        - 13589561683468977897
-        - 17113005422232321242
-    InventoryBarUI:
-      slotCount: 8
-      slotSize: 56
-      slotGap: 10
-      labelFontSize: 22
-  - Entity: 7544183909755889777
-    Name: Player
-    Tag: Player
-    Canis::Transform:
-      active: true
-      position: [0, 15, 0]
-      rotation: [0, -0, 0]
-      scale: [1, 1, 1]
-      parent: 0
-      children:
-        - 910001
-        - 13373378563672199746
-        - 5449987318143392238
-    Canis::Rigidbody:
-      active: true
-      motionType: 2
-      mass: 1
-      friction: 0.2
-      restitution: 0
-      linearDamping: 0.05
-      angularDamping: 0.05
-      useGravity: true
-      isSensor: false
-      layer: 2
-      mask: 4294967295
-      allowSleeping: true
-      lockRotationX: true
-      lockRotationY: true
-      lockRotationZ: true
-      linearVelocity: [0, 0, 0]
-      angularVelocity: [0, 0, 0]
-    Canis::CapsuleCollider:
-      active: true
-      halfHeight: 0.5
-      radius: 0.5
-    Canis::Material:
-      color: [1, 1, 1, 1]
-      MaterialAsset:
-        uuid: 17490362529814420531
-    Canis::Model:
-      color: [1, 1, 1, 1]
-      ModelAsset:
-        uuid: 17154083321347000103
-    PickupCollector:
-      pickupCollider: 5449987318143392238
-    PlacementController:
-      furnacePrefab: assets/prefabs/furnace.scene
-      coiningPressPrefab: assets/prefabs/coining_press.scene
-      boostPadPrefab: assets/prefabs/boost_pad.scene
-      startingFurnaceCount: 1
-      startingCoiningPressCount: 1
-      startingBoostPadCount: 5
-      placementRange: 12
-      placementGroundMask: 1
-      placementBlockMask: 4
-      minPlacementUpDot: 0.35
-    PlayerController:
-      walkingSpeed: 6
-      sprintingSpeed: 10
-      turnSpeed: 1
-      maxLookAngle: 89
-      jumpImpulse: 7.5
-      groundCheckDistance: 2
-      groundCollisionMask: 1
-      blockScannerMask: 4
-      itemScannerMask: 8
-    SuperPupUtilities::Inventory: ~
-  - Entity: 4317909316194178768
-    Name: Info_Text
-    Tag: INFO_TEXT
-    Canis::RectTransform:
-      active: true
-      position: [0, 114.00009]
-      size: [50, 33]
-      scale: [1, 1]
-      anchorMin: [0.5, 0]
-      anchorMax: [0.5, 0]
-      pivot: [0.5, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023401
-      children:
-        []
-    Canis::Text:
-      text: Info
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 32
-    InfoText:
-      timer: 0
-      fadeoutTime: 0.5
-  - Entity: 2089418608511533489
-    Name: Generation
-    Tag: ""
-    Canis::Transform:
-      active: true
-      position: [-32, -10, -32]
-      rotation: [0, 0, 0]
-      scale: [1, 1, 1]
-      parent: 0
-      children:
-        []
-    GenerateTerrain:
-      seed: 1337
-      chunksX: 8
-      chunksZ: 8
-      chunkSize: 16
-      chunkHeight: 24
-      baseHeight: 6
-      maxHeightVariation: 10
-      hillHeightBoost: 6
-      bedrockLayerHeight: 1
-      surfaceIceHeight: 11
-      heightNoiseScale: 0.075
-      detailNoiseScale: 0.16
-      hillNoiseScale: 0.03
-      caveNoiseScale: 0.12
-      rockDropPrefab: assets/prefabs/rock_item.scene
-      iceDropPrefab: assets/prefabs/ice_item.scene
-      goldDropPrefab: assets/prefabs/gold_ore_item.scene
-      uraniumDropPrefab: assets/prefabs/uranium_item.scene
-  - Entity: 13373378563672199746
-    Name: Point Light
-    Tag: ""
-    Canis::Transform:
-      active: true
-      position: [0, 0, 0]
-      rotation: [0, 0, 0]
-      scale: [1, 1, 1]
-      parent: 7544183909755889777
-      children:
-        []
-    Canis::PointLight:
-      enabled: true
-      color: [0.88235295, 0.68771625, 0.22058824, 1]
-      intensity: 1.2
-      range: 12
-  - Entity: 6866326957864295295
-    Name: Crosshair
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [32, 32]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023401
-      children:
-        []
-    Canis::Sprite2D:
-      color: [1, 1, 1, 1]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 3233239955614688008
-  - Entity: 5449987318143392238
-    Name: Pickup Collector
-    Tag: ""
-    Canis::Transform:
-      active: true
-      position: [0, 0, 0]
-      rotation: [0, 0, 0]
-      scale: [5, 5, 5]
-      parent: 7544183909755889777
-      children:
-        []
-    Canis::Rigidbody:
-      active: true
-      motionType: 1
-      mass: 1
-      friction: 0.2
-      restitution: 0
-      linearDamping: 0.05
-      angularDamping: 0.05
-      useGravity: false
-      isSensor: true
-      layer: 8
-      mask: 8
-      allowSleeping: false
-      lockRotationX: false
-      lockRotationY: false
-      lockRotationZ: false
-      linearVelocity: [0, 0, 0]
-      angularVelocity: [0, 0, 0]
-    Canis::SphereCollider:
-      active: true
-      radius: 0.5
-  - Entity: 4729520178907626757
-    Name: RuntimeUI_PauseRoot
-    Tag: ""
-    Canis::RectTransform:
-      active: false
-      position: [0, 0]
-      size: [0, 0]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.002
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023401
-      children:
-        - 12257391231934405669
-    Canis::Sprite2D:
-      color: [0.03, 0.05, 0.07, 0.68]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 12257391231934405669
-    Name: RuntimeUI_PausePanel
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [360, 220]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0019
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 4729520178907626757
-      children:
-        - 13521972949244698584
-        - 8086490109048708460
-        - 4640421864984929421
-    Canis::Sprite2D:
-      color: [0.06, 0.08, 0.11, 0.97]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 13521972949244698584
-    Name: RuntimeUI_PauseTitle
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 66]
-      size: [105, 38]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018000001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 12257391231934405669
-      children:
-        []
-    Canis::Text:
-      text: Paused
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 38
-  - Entity: 8086490109048708460
-    Name: RuntimeUI_ResumeButton
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 6]
-      size: [220, 52]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 12257391231934405669
-      children:
-        - 15217173177973516544
-    Canis::Sprite2D:
-      color: [0.14, 0.18, 0.24, 0.98]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-    Canis::UIButton:
-      active: true
-      targetEntity: 6129844738291023401
-      targetScript: GameUIController
-      actionName: resume_pause
-      baseColor: [0.14, 0.18, 0.24, 0.98]
-      hoverColor: [0.19, 0.25, 0.34, 1]
-      pressedColor: [0.1, 0.14, 0.18, 1]
-      baseScale: 1
-      hoverScale: 1.03
-      pressedScale: 0.98
-  - Entity: 15217173177973516544
-    Name: RuntimeUI_ResumeButton_Label
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [85, 28]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0017
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 8086490109048708460
-      children:
-        []
-    Canis::Text:
-      text: Resume
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 28
-  - Entity: 4640421864984929421
-    Name: RuntimeUI_QuitButton
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, -60]
-      size: [220, 52]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 12257391231934405669
-      children:
-        - 17378248972132931396
-    Canis::Sprite2D:
-      color: [0.14, 0.18, 0.24, 0.98]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-    Canis::UIButton:
-      active: true
-      targetEntity: 6129844738291023401
-      targetScript: GameUIController
-      actionName: quit_game
-      baseColor: [0.14, 0.18, 0.24, 0.98]
-      hoverColor: [0.19, 0.25, 0.34, 1]
-      pressedColor: [0.1, 0.14, 0.18, 1]
-      baseScale: 1
-      hoverScale: 1.03
-      pressedScale: 0.98
-  - Entity: 17378248972132931396
-    Name: RuntimeUI_QuitButton_Label
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [108, 28]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0017
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 4640421864984929421
-      children:
-        []
-    Canis::Text:
-      text: Quit Game
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 28
-  - Entity: 17359432889461608361
-    Name: RuntimeUI_FurnaceRoot
-    Tag: ""
-    Canis::RectTransform:
-      active: false
-      position: [0, 0]
-      size: [0, 0]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.002
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023401
-      children:
-        - 5603657852978263440
-    Canis::Sprite2D:
-      color: [0.03, 0.05, 0.07, 0.68]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 5603657852978263440
-    Name: RuntimeUI_FurnacePanel
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [580, 360]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0019
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 17359432889461608361
-      children:
-        - 1548910512410747517
-        - 16473228143620672127
-        - 9039997475568379672
-        - 1872577548710651079
-        - 11977416367906043740
-        - 10781305050801200345
-        - 9494509662688624428
-        - 8991994287574486318
-        - 9290198728801260512
-        - 11514158105281197375
-    Canis::Sprite2D:
-      color: [0.06, 0.08, 0.11, 0.98]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 1548910512410747517
-    Name: RuntimeUI_FurnaceTitle
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 142]
-      size: [112, 37]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018000001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        []
-    Canis::Text:
-      text: Furnace
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 36
-  - Entity: 16473228143620672127
-    Name: RuntimeUI_FurnaceClose
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [236, 142]
-      size: [72, 42]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        - 12228116993737411866
-    Canis::Sprite2D:
-      color: [0.14, 0.18, 0.24, 0.98]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-    Canis::UIButton:
-      active: true
-      targetEntity: 6129844738291023401
-      targetScript: GameUIController
-      actionName: close_furnace
-      baseColor: [0.14, 0.18, 0.24, 0.98]
-      hoverColor: [0.19, 0.25, 0.34, 1]
-      pressedColor: [0.1, 0.14, 0.18, 1]
-      baseScale: 1
-      hoverScale: 1.03
-      pressedScale: 0.98
-  - Entity: 12228116993737411866
-    Name: RuntimeUI_FurnaceClose_Label
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [58, 28]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0017
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 16473228143620672127
-      children:
-        []
-    Canis::Text:
-      text: Close
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 28
-  - Entity: 9039997475568379672
-    Name: RuntimeUI_FuelLabel
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [-130, 88]
-      size: [81, 25]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018000001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        []
-    Canis::Text:
-      text: Fuel Slot
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 24
-  - Entity: 1872577548710651079
-    Name: RuntimeUI_OreLabel
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [130, 88]
-      size: [72, 25]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018000001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        []
-    Canis::Text:
-      text: Ore Slot
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 24
-  - Entity: 11977416367906043740
-    Name: RuntimeUI_FuelSlot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [-130, 10]
-      size: [140, 140]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        - 18218111464713567667
-    Canis::Sprite2D:
-      color: [0.1, 0.12, 0.15, 0.96]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-    Canis::UIDropTarget:
-      active: true
-      targetEntity: 6129844738291023401
-      targetScript: GameUIController
-      actionName: drop_furnace_fuel
-      acceptedPayloadType: inventory_item
-      baseColor: [0.1, 0.12, 0.15, 0.96]
-      hoverColor: [0.22, 0.3, 0.18, 1]
-  - Entity: 10781305050801200345
-    Name: RuntimeUI_OreSlot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [130, 10]
-      size: [140, 140]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        - 13035472081198130827
-    Canis::Sprite2D:
-      color: [0.1, 0.12, 0.15, 0.96]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-    Canis::UIDropTarget:
-      active: true
-      targetEntity: 6129844738291023401
-      targetScript: GameUIController
-      actionName: drop_furnace_ore
-      acceptedPayloadType: inventory_item
-      baseColor: [0.1, 0.12, 0.15, 0.96]
-      hoverColor: [0.22, 0.3, 0.18, 1]
-  - Entity: 18218111464713567667
-    Name: RuntimeUI_FuelCount
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [53, 23]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0017
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 11977416367906043740
-      children:
-        []
-    Canis::Text:
-      text: "Fuel: 0"
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 13035472081198130827
-    Name: RuntimeUI_OreCount
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [47, 23]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0017
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 10781305050801200345
-      children:
-        []
-    Canis::Text:
-      text: "Ore: 0"
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 9494509662688624428
-    Name: RuntimeUI_FurnaceStatus
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, -88]
-      size: [30, 23]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018000001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        []
-    Canis::Text:
-      text: Idle
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 8991994287574486318
-    Name: RuntimeUI_InventoryLabel
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, -136]
-      size: [172, 23]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018000001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        []
-    Canis::Text:
-      text: Drag Items Into Slots
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 9290198728801260512
-    Name: RuntimeUI_Uranium_Tile
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [-110, -198]
-      size: [180, 68]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        - 2007007921601469608
-        - 10271087286439984680
-    Canis::Sprite2D:
-      color: [0.2, 0.5, 0.18, 1]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-    Canis::UIDragSource:
-      active: true
-      payloadType: inventory_item
-      payloadValue: Uranium
-  - Entity: 2007007921601469608
-    Name: RuntimeUI_Uranium_Label
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [81, 25]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0017
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 9290198728801260512
-      children:
-        []
-    Canis::Text:
-      text: Uranium
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 24
-  - Entity: 10271087286439984680
-    Name: RuntimeUI_Uranium_Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [-20, 0]
-      size: [10, 21]
-      scale: [1, 1]
-      anchorMin: [1, 0.5]
-      anchorMax: [1, 0.5]
-      pivot: [1, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0017
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 9290198728801260512
-      children:
-        []
-    Canis::Text:
-      text: 0
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 20
-  - Entity: 11514158105281197375
-    Name: RuntimeUI_Gold Ore_Tile
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [110, -198]
-      size: [180, 68]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0018
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5603657852978263440
-      children:
-        - 14343222640033481006
-        - 5054883796989280266
-    Canis::Sprite2D:
-      color: [0.58, 0.46, 0.1, 1]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-    Canis::UIDragSource:
-      active: true
-      payloadType: inventory_item
-      payloadValue: Gold Ore
-  - Entity: 14343222640033481006
-    Name: RuntimeUI_Gold Ore_Label
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [77, 25]
-      scale: [1, 1]
-      anchorMin: [0.5, 0.5]
-      anchorMax: [0.5, 0.5]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0017
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 11514158105281197375
-      children:
-        []
-    Canis::Text:
-      text: Gold Ore
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 24
-  - Entity: 5054883796989280266
-    Name: RuntimeUI_Gold Ore_Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [-30, 0]
-      size: [10, 21]
-      scale: [1, 1]
-      anchorMin: [1, 0.5]
-      anchorMax: [1, 0.5]
-      pivot: [1, 0.5]
-      originOffset: [0, 0]
-      depth: 0.0017
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 11514158105281197375
-      children:
-        []
-    Canis::Text:
-      text: 0
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 20
-  - Entity: 2204813574240534813
-    Name: Inventory Slot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [56, 56]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [0, 0]
-      pivot: [0, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023402
-      children:
-        - 16400064540688452386
-        - 3283928602295126134
-    Canis::Sprite2D:
-      color: [0.07, 0.09, 0.12, 0.82]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 16400064540688452386
-    Name: Inventory Icon
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-16, -16]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 2204813574240534813
-      children:
-        []
-    Canis::Sprite2D:
-      color: [0, 0, 0, 0]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 3283928602295126134
-    Name: Inventory Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-6, -6]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 2204813574240534813
-      children:
-        []
-    Canis::Text:
-      text: ""
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 3855195171089961147
-    Name: Inventory Slot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [66, 0]
-      size: [56, 56]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [0, 0]
-      pivot: [0, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023402
-      children:
-        - 1774369049045192613
-        - 13590851575286421827
-    Canis::Sprite2D:
-      color: [0.07, 0.09, 0.12, 0.82]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 1774369049045192613
-    Name: Inventory Icon
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-16, -16]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 3855195171089961147
-      children:
-        []
-    Canis::Sprite2D:
-      color: [0, 0, 0, 0]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 13590851575286421827
-    Name: Inventory Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-6, -6]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 3855195171089961147
-      children:
-        []
-    Canis::Text:
-      text: ""
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 5202672042202249096
-    Name: Inventory Slot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [132, 0]
-      size: [56, 56]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [0, 0]
-      pivot: [0, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023402
-      children:
-        - 15255479341419877577
-        - 9565860324452364459
-    Canis::Sprite2D:
-      color: [0.07, 0.09, 0.12, 0.82]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 15255479341419877577
-    Name: Inventory Icon
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-16, -16]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5202672042202249096
-      children:
-        []
-    Canis::Sprite2D:
-      color: [0, 0, 0, 0]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 9565860324452364459
-    Name: Inventory Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-6, -6]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 5202672042202249096
-      children:
-        []
-    Canis::Text:
-      text: ""
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 8553269334490750129
-    Name: Inventory Slot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [198, 0]
-      size: [56, 56]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [0, 0]
-      pivot: [0, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023402
-      children:
-        - 2131306161797050470
-        - 8310606454459681628
-    Canis::Sprite2D:
-      color: [0.07, 0.09, 0.12, 0.82]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 2131306161797050470
-    Name: Inventory Icon
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-16, -16]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 8553269334490750129
-      children:
-        []
-    Canis::Sprite2D:
-      color: [0, 0, 0, 0]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 8310606454459681628
-    Name: Inventory Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-6, -6]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 8553269334490750129
-      children:
-        []
-    Canis::Text:
-      text: ""
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 1670742994835074695
-    Name: Inventory Slot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [264, 0]
-      size: [56, 56]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [0, 0]
-      pivot: [0, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023402
-      children:
-        - 3437654411770410946
-        - 10666998605849924475
-    Canis::Sprite2D:
-      color: [0.07, 0.09, 0.12, 0.82]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 3437654411770410946
-    Name: Inventory Icon
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-16, -16]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 1670742994835074695
-      children:
-        []
-    Canis::Sprite2D:
-      color: [0, 0, 0, 0]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 10666998605849924475
-    Name: Inventory Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-6, -6]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 1670742994835074695
-      children:
-        []
-    Canis::Text:
-      text: ""
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 4358385035118765411
-    Name: Inventory Slot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [330, 0]
-      size: [56, 56]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [0, 0]
-      pivot: [0, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023402
-      children:
-        - 16683129835832740750
-        - 8299779628398819227
-    Canis::Sprite2D:
-      color: [0.07, 0.09, 0.12, 0.82]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 16683129835832740750
-    Name: Inventory Icon
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-16, -16]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 4358385035118765411
-      children:
-        []
-    Canis::Sprite2D:
-      color: [0, 0, 0, 0]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 8299779628398819227
-    Name: Inventory Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-6, -6]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 4358385035118765411
-      children:
-        []
-    Canis::Text:
-      text: ""
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 13589561683468977897
-    Name: Inventory Slot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [396, 0]
-      size: [56, 56]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [0, 0]
-      pivot: [0, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023402
-      children:
-        - 9830263426463134870
-        - 2118859012303985981
-    Canis::Sprite2D:
-      color: [0.07, 0.09, 0.12, 0.82]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 9830263426463134870
-    Name: Inventory Icon
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-16, -16]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 13589561683468977897
-      children:
-        []
-    Canis::Sprite2D:
-      color: [0, 0, 0, 0]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 2118859012303985981
-    Name: Inventory Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-6, -6]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 13589561683468977897
-      children:
-        []
-    Canis::Text:
-      text: ""
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
-  - Entity: 17113005422232321242
-    Name: Inventory Slot
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [462, 0]
-      size: [56, 56]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [0, 0]
-      pivot: [0, 0]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 6129844738291023402
-      children:
-        - 11964705000932261953
-        - 9114962309006800117
-    Canis::Sprite2D:
-      color: [0.07, 0.09, 0.12, 0.82]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 11964705000932261953
-    Name: Inventory Icon
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-16, -16]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 17113005422232321242
-      children:
-        []
-    Canis::Sprite2D:
-      color: [0, 0, 0, 0]
-      uv: [0, 0, 1, 1]
-      flipX: false
-      flipY: false
-      TextureAsset:
-        uuid: 16060716090729117806
-  - Entity: 9114962309006800117
-    Name: Inventory Count
-    Tag: ""
-    Canis::RectTransform:
-      active: true
-      position: [0, 0]
-      size: [-6, -6]
-      scale: [1, 1]
-      anchorMin: [0, 0]
-      anchorMax: [1, 1]
-      pivot: [0.5, 0.5]
-      originOffset: [0, 0]
-      depth: 0.001
-      rotation: 0
-      rotationOriginOffset: [0, 0]
-      parent: 17113005422232321242
-      children:
-        []
-    Canis::Text:
-      text: ""
-      color: [1, 1, 1, 1]
-      alignment: 2
-      horizontalBoundary: 0
-      FontAsset:
-        uuid: 14618725492368012463
-        fontSize: 22
+      player: 910020
+      ground: 910010
