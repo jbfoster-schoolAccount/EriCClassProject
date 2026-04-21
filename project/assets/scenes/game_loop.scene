@@ -289,7 +289,7 @@ Entities:
       logWarnings: true
       pools:
         - code: laser_bullet
-          prefab: 11264011979323327841
+          prefab: 16543449644754534652
           size: 6
   - Entity: 910031
     Name: LaserTagTurret
@@ -332,7 +332,7 @@ Entities:
       ModelAsset:
         uuid: 17154083321347000101
     RollABall::LaserTagTurret:
-      laserPrefab: 11264011979323327841
+      laserPrefab: 16543449644754534652
       targetTag: Player
       poolCode: laser_bullet
       fireInterval: 1.75
