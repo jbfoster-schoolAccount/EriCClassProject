@@ -78,9 +78,11 @@ endif()
 #endif()
 #string(APPEND CMAKE_CXX_FLAGS_DEBUG " -gsplit-dwarf")
 
-set_property(GLOBAL PROPERTY CMAKE_CONFIGURE_DEPENDS ON)
-
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+if(NOT CANIS_PLATFORM_WEB)
+  # GameCode is a shared library on desktop, so all linked static libraries
+  # must be compiled as position-independent code.
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
 
 #set(SDLSHADERCROSS_VENDORED     ON)
 #set(SDLSHADERCROSS_DXC          ON)
@@ -90,6 +92,11 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(SDL_OPENGLES ON CACHE BOOL "" FORCE)
 set(SDL_TEST_LIBRARY OFF CACHE BOOL "" FORCE)
 if(CANIS_PLATFORM_WEB)
+  set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+  set(SDL_STATIC ON CACHE BOOL "" FORCE)
+else()
+  # Use the static SDL build on desktop so the runtime doesn't depend on
+  # a separate SDL3 DLL being replaced while the app is running.
   set(SDL_SHARED OFF CACHE BOOL "" FORCE)
   set(SDL_STATIC ON CACHE BOOL "" FORCE)
 endif()
