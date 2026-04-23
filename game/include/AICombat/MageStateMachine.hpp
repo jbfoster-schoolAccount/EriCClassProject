@@ -8,66 +8,62 @@
 
 namespace AICombat
 {
-    class BrawlerStateMachine;
+    class MageStateMachine;
 
-    class BrawlIdleState : public SuperPupUtilities::State
+    class MageIdleState : public SuperPupUtilities::State
     {
     public:
-        static constexpr const char* Name = "BrawlIdleState";
+        static constexpr const char* Name = "MageIdleState";
 
-        explicit BrawlIdleState(SuperPupUtilities::StateMachine& _stateMachine);
+        explicit MageIdleState(SuperPupUtilities::StateMachine& _stateMachine);
         void Enter() override;
         void Update(float _dt) override;
     };
 
-    class BrawlChaseState : public SuperPupUtilities::State
+    class MageChaseState : public SuperPupUtilities::State
     {
     public:
-        static constexpr const char* Name = "BrawlChaseState";
+        static constexpr const char* Name = "MageChaseState";
         float moveSpeed = 4.0f;
 
-        explicit BrawlChaseState(SuperPupUtilities::StateMachine& _stateMachine);
+        explicit MageChaseState(SuperPupUtilities::StateMachine& _stateMachine);
         void Enter() override;
         void Update(float _dt) override;
     };
 
-    class BrawlHammerTimeState : public SuperPupUtilities::State
+    class MageShotState : public SuperPupUtilities::State
     {
     public:
-        static constexpr const char* Name = "BrawlHammerTimeState";
-        float hammerRestDegrees = 140.0f;
-        float hammerSwingDegrees = -120.0f;
-        float attackRange = 2.25f;
-        float attackDuration = 0.75f;
-        float attackDamageTime = 0.25f;
+        static constexpr const char* Name = "MageShotState";
+        float shotTime = 1.00f;
+        float attackRange = 12.25f;
 
-        explicit BrawlHammerTimeState(SuperPupUtilities::StateMachine& _stateMachine);
+        explicit MageShotState(SuperPupUtilities::StateMachine& _stateMachine);
         void Enter() override;
         void Update(float _dt) override;
         void Exit() override;
     };
 
-    class BrawlerStateMachine : public SuperPupUtilities::StateMachine
+    class MageStateMachine : public SuperPupUtilities::StateMachine
     {
     public:
-        static constexpr const char* ScriptName = "AICombat::BrawlerStateMachine";
+        static constexpr const char* ScriptName = "AICombat::MageStateMachine";
 
         std::string targetTag = "";
-        float detectionRange = 20.0f;
+        float detectionRange = 25.0f;
         Canis::Vector3 bodyColliderSize = Canis::Vector3(1.0f);
-        int maxHealth = 40;
+        int maxHealth = 20;
         bool logStateChanges = true;
-        Canis::Entity* hammerVisual = nullptr;
         Canis::AudioAssetHandle hitSfxPath1 = { .path = "assets/audio/sfx/hit_1.ogg" };
         Canis::AudioAssetHandle hitSfxPath2 = { .path = "assets/audio/sfx/hit_2.ogg" };
         float hitSfxVolume = 1.0f;
         Canis::SceneAssetHandle deathEffectPrefab = { .path = "assets/prefabs/brawler_death_particles.scene" };
 
-        explicit BrawlerStateMachine(Canis::Entity& _entity);
+        explicit MageStateMachine(Canis::Entity& _entity);
 
-        BrawlIdleState idleState;
-        BrawlChaseState chaseState;
-        BrawlHammerTimeState hammerTimeState;
+        MageIdleState idleState;
+        MageChaseState chaseState;
+        MageShotState shotState;
 
         void Create() override;
         void Ready() override;
@@ -84,8 +80,8 @@ namespace AICombat
         float GetAttackRange() const;
         int GetCurrentHealth() const;
 
-        void ResetHammerPose();
-        void SetHammerSwing(float _normalized);
+        void ResetShot();
+        void ShootShot();
         void TakeDamage(int _damage);
         bool IsAlive() const;
 
@@ -100,6 +96,6 @@ namespace AICombat
         bool m_useFirstHitSfx = true;
     };
 
-    void RegisterBrawlerStateMachineScript(Canis::App& _app);
-    void UnRegisterBrawlerStateMachineScript(Canis::App& _app);
+    void RegisterMageStateMachineScript(Canis::App& _app);
+    void UnRegisterMageStateMachineScript(Canis::App& _app);
 }

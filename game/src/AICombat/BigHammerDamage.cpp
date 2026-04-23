@@ -1,6 +1,6 @@
-#include <AICombat/HammerDamage.hpp>
+#include <AICombat/BigHammerDamage.hpp>
 
-#include <AICombat/BrawlerStateMachine.hpp>
+#include <AICombat/BigBrawlerStateMachine.hpp>
 
 #include <Canis/App.hpp>
 #include <Canis/ConfigHelper.hpp>
@@ -11,31 +11,31 @@ namespace AICombat
 {
     namespace
     {
-        ScriptConf hammerDamageConf = {};
+        ScriptConf bigHammerDamageConf = {};
     }
 
-    void RegisterHammerDamageScript(Canis::App& _app)
+    void RegisterBigHammerDamageScript(Canis::App& _app)
     {
-        REGISTER_PROPERTY(hammerDamageConf, AICombat::HammerDamage, owner);
-        REGISTER_PROPERTY(hammerDamageConf, AICombat::HammerDamage, sensorSize);
-        REGISTER_PROPERTY(hammerDamageConf, AICombat::HammerDamage, damage);
-        REGISTER_PROPERTY(hammerDamageConf, AICombat::HammerDamage, targetTag);
+        REGISTER_PROPERTY(bigHammerDamageConf, AICombat::BigHammerDamage, owner);
+        REGISTER_PROPERTY(bigHammerDamageConf, AICombat::BigHammerDamage, sensorSize);
+        REGISTER_PROPERTY(bigHammerDamageConf, AICombat::BigHammerDamage, damage);
+        REGISTER_PROPERTY(bigHammerDamageConf, AICombat::BigHammerDamage, targetTag);
 
         DEFAULT_CONFIG_AND_REQUIRED(
-            hammerDamageConf,
-            AICombat::HammerDamage,
+            bigHammerDamageConf,
+            AICombat::BigHammerDamage,
             Canis::Transform,
             Canis::Rigidbody,
             Canis::BoxCollider);
 
-        hammerDamageConf.DEFAULT_DRAW_INSPECTOR(AICombat::HammerDamage);
+        bigHammerDamageConf.DEFAULT_DRAW_INSPECTOR(AICombat::BigHammerDamage);
 
-        _app.RegisterScript(hammerDamageConf);
+        _app.RegisterScript(bigHammerDamageConf);
     }
 
-    DEFAULT_UNREGISTER_SCRIPT(hammerDamageConf, HammerDamage)
+    DEFAULT_UNREGISTER_SCRIPT(bigHammerDamageConf, BigHammerDamage)
 
-    void HammerDamage::Create()
+    void BigHammerDamage::Create()
     {
         entity.GetComponent<Canis::Transform>();
 
@@ -50,29 +50,29 @@ namespace AICombat
         entity.GetComponent<Canis::BoxCollider>().size = sensorSize;
     }
 
-    void HammerDamage::Ready()
+    void BigHammerDamage::Ready()
     {
         if (owner == nullptr)
             owner = FindOwnerFromHierarchy();
 
         if (targetTag.empty())
         {
-            if (BrawlerStateMachine* ownerStateMachine = GetOwnerStateMachine())
+            if (BigBrawlerStateMachine* ownerStateMachine = GetOwnerStateMachine())
                 targetTag = ownerStateMachine->targetTag;
         }
     }
 
-    void HammerDamage::Update(float)
+    void BigHammerDamage::Update(float)
     {
         CheckSensorEnter();
     }
 
-    void HammerDamage::CheckSensorEnter()
+    void BigHammerDamage::CheckSensorEnter()
     {
         if (!entity.HasComponents<Canis::BoxCollider, Canis::Rigidbody>())
             return;
 
-        BrawlerStateMachine* ownerStateMachine = GetOwnerStateMachine();
+        BigBrawlerStateMachine* ownerStateMachine = GetOwnerStateMachine();
         if (ownerStateMachine == nullptr || !ownerStateMachine->IsAlive())
         {
             m_hitTargetsThisSwing.clear();
@@ -80,7 +80,7 @@ namespace AICombat
         }
 
         const bool damageWindowOpen =
-            ownerStateMachine->GetCurrentStateName() == BrawlHammerTimeState::Name &&
+            ownerStateMachine->GetCurrentStateName() == HammerTimeState::Name &&
             ownerStateMachine->GetStateTime() >= ownerStateMachine->hammerTimeState.attackDamageTime;
 
         if (!damageWindowOpen)
@@ -94,7 +94,7 @@ namespace AICombat
             if (other == nullptr || !other->active || other == owner || HasDamagedThisSwing(*other))
                 continue;
 
-            BrawlerStateMachine* targetStateMachine = other->GetScript<BrawlerStateMachine>();
+            BigBrawlerStateMachine* targetStateMachine = other->GetScript<BigBrawlerStateMachine>();
             if (targetStateMachine == nullptr || !targetStateMachine->IsAlive())
                 continue;
 
@@ -106,7 +106,7 @@ namespace AICombat
         }
     }
 
-    BrawlerStateMachine* HammerDamage::GetOwnerStateMachine()
+    BigBrawlerStateMachine* BigHammerDamage::GetOwnerStateMachine()
     {
         if (owner == nullptr)
             owner = FindOwnerFromHierarchy();
@@ -114,10 +114,10 @@ namespace AICombat
         if (owner == nullptr || !owner->active)
             return nullptr;
 
-        return owner->GetScript<BrawlerStateMachine>();
+        return owner->GetScript<BigBrawlerStateMachine>();
     }
 
-    Canis::Entity* HammerDamage::FindOwnerFromHierarchy() const
+    Canis::Entity* BigHammerDamage::FindOwnerFromHierarchy() const
     {
         if (!entity.HasComponent<Canis::Transform>())
             return nullptr;
@@ -125,7 +125,7 @@ namespace AICombat
         Canis::Entity* current = entity.GetComponent<Canis::Transform>().parent;
         while (current != nullptr)
         {
-            if (current->HasScript<BrawlerStateMachine>())
+            if (current->HasScript<BigBrawlerStateMachine>())
                 return current;
 
             if (!current->HasComponent<Canis::Transform>())
@@ -137,7 +137,7 @@ namespace AICombat
         return nullptr;
     }
 
-    bool HammerDamage::HasDamagedThisSwing(Canis::Entity& _target) const
+    bool BigHammerDamage::HasDamagedThisSwing(Canis::Entity& _target) const
     {
         return std::find(m_hitTargetsThisSwing.begin(), m_hitTargetsThisSwing.end(), &_target)
             != m_hitTargetsThisSwing.end();

@@ -209,8 +209,8 @@ Entities:
     Tag: Red
     Canis::Transform:
       active: true
-      position: [4, 1, 0]
-      rotation: [0, 3.1415927, 0]
+      position: [4, 1, 14.803213]
+      rotation: [-3.1415908, -8.742277e-08, -3.1415908]
       scale: [1, 1, 1]
       parent: 0
       children:
@@ -398,3 +398,140 @@ Entities:
       sensorSize: [1, 1, 1]
       damage: 10
       targetTag: Blue
+  - Entity: 9099456575291650197
+    Name: Big Red Brawler
+    Tag: Red
+    Canis::Transform:
+      active: true
+      position: [13.863404, 1.1884111, -3.4956343]
+      rotation: [-3.1415908, -8.742277e-08, -3.1415908]
+      scale: [2, 2, 2]
+      parent: 0
+      children:
+        - 17463771680870681862
+    Canis::Rigidbody:
+      active: true
+      motionType: 1
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: false
+      layer: 4
+      mask: 11
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [1, 1, 1]
+    Canis::Material:
+      color: [0.93, 0.32, 0.3, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [0.93, 0.32, 0.3, 1]
+      ModelAsset:
+        uuid: 17154083321347000101
+    AICombat::BigBrawlerStateMachine:
+      targetTag: Blue
+      detectionRange: 20
+      bodyColliderSize: [1, 1, 1]
+      moveSpeed: 2
+      hammerRestDegrees: 250
+      hammerSwingDegrees: 220
+      attackRange: 1
+      attackDuration: 1.75
+      attackDamageTime: 0.25
+      maxHealth: 80
+      logStateChanges: true
+      hammerVisual: 17463771680870681862
+      hitSfxPath1:
+        uuid: 9101673412543458587
+        path: assets/audio/sfx/hit_1.ogg
+      hitSfxPath2:
+        uuid: 15814014518013310489
+        path: assets/audio/sfx/hit_2.ogg
+      hitSfxVolume: 0.1
+      deathEffectPrefab: 1932126691914227009
+  - Entity: 17463771680870681862
+    Name: Right Hand Root
+    Tag: ""
+    Canis::Transform:
+      active: true
+      position: [-0.10935192, 0.18722251, -0.6603708]
+      rotation: [1.5707964, 0, 0]
+      scale: [0.9999726, 1, 1]
+      parent: 9099456575291650197
+      children:
+        - 3888943689856042995
+        - 11710995731151867238
+  - Entity: 3888943689856042995
+    Name: Red Hammer Head
+    Tag: ""
+    Canis::Transform:
+      active: true
+      position: [0, -1.4210855e-14, -1.4746836]
+      rotation: [0, -0, 0]
+      scale: [0.99995285, 1, 1]
+      parent: 17463771680870681862
+      children:
+        []
+    Canis::Rigidbody:
+      active: true
+      motionType: 0
+      mass: 1
+      friction: 0.2
+      restitution: 0
+      linearDamping: 0.05
+      angularDamping: 0.05
+      useGravity: false
+      isSensor: true
+      layer: 16
+      mask: 2
+      allowSleeping: false
+      lockRotationX: false
+      lockRotationY: false
+      lockRotationZ: false
+      linearVelocity: [0, 0, 0]
+      angularVelocity: [0, 0, 0]
+    Canis::BoxCollider:
+      active: true
+      size: [7, 7, 7]
+    Canis::Material:
+      color: [1, 1, 1, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [1, 1, 1, 1]
+      ModelAsset:
+        uuid: 17154083321347000101
+    AICombat::BigHammerDamage:
+      owner: 0
+      sensorSize: [7, 7, 7]
+      damage: 20
+      targetTag: Blue
+  - Entity: 11710995731151867238
+    Name: Red Hammer Handle
+    Tag: ""
+    Canis::Transform:
+      active: true
+      position: [0, -4.2252964e-08, -0.48331738]
+      rotation: [0, 0, 0]
+      scale: [0.24999192, 0.24999996, 1.1000001]
+      parent: 17463771680870681862
+      children:
+        []
+    Canis::Material:
+      color: [0.78, 0.9, 1, 1]
+      MaterialAsset:
+        uuid: 17490362529814420531
+    Canis::Model:
+      color: [0.78, 0.9, 1, 1]
+      ModelAsset:
+        uuid: 17154083321347000101
