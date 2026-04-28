@@ -1,10 +1,12 @@
 #include <AICombat/MageStateMachine.hpp>
-#include <SuperPupUtilities/Bullet.hpp>
 
 #include <Canis/App.hpp>
 #include <Canis/AudioManager.hpp>
 #include <Canis/ConfigHelper.hpp>
 #include <Canis/Debug.hpp>
+
+#include <SuperPupUtilities/Bullet.hpp>
+#include <SuperPupUtilities/SimpleObjectPool.hpp>
 
 #include <algorithm>
 #include <cmath>
