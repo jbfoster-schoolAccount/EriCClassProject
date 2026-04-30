@@ -37,6 +37,7 @@ namespace AICombat
         static constexpr const char* Name = "MageShotState";
         float shotTime = 1.00f;
         float attackRange = 12.25f;
+        float duration = 0.0f;
 
         explicit MageShotState(SuperPupUtilities::StateMachine& _stateMachine);
         void Enter() override;

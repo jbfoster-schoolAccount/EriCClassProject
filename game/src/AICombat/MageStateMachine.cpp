@@ -89,11 +89,12 @@ namespace AICombat
         if (Canis::Entity* target = mageStatMachine->FindClosestTarget())
             mageStatMachine->FaceTarget(*target);
 
-        const float duration = std::max(shotTime, 0.001f);
+        duration = duration + 0.001f;
 
         if (duration >= shotTime)
         {
             mageStatMachine->ShootShot();
+            duration = 0.0f;
         }
 
         if (mageStatMachine->GetStateTime() < duration)
@@ -125,6 +126,7 @@ namespace AICombat
         RegisterAccessorProperty(mageStateMachineConf, AICombat::MageStateMachine, chaseState, moveSpeed);
         RegisterAccessorProperty(mageStateMachineConf, AICombat::MageStateMachine, shotState, shotTime);
         RegisterAccessorProperty(mageStateMachineConf, AICombat::MageStateMachine, shotState, attackRange);
+        RegisterAccessorProperty(mageStateMachineConf, AICombat::MageStateMachine, shotState, duration);
         REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, maxHealth);
         REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, logStateChanges);
         REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, hitSfxPath1);
@@ -317,12 +319,18 @@ namespace AICombat
 
         if (SuperPupUtilities::Bullet* bullet = projectile->GetScript<SuperPupUtilities::Bullet>())
         {
+            Debug::Log("BulletDid thing");
             bullet->speed = 10.0f;
             bullet->lifeTime = 2.0f;
             bullet->hitImpulse = 1.0f;
+
+            bullet->targetTags.clear();
+            bullet->targetTags.push_back(target->tag);
+
             bullet->Launch();
         }
     }
+    
     void MageStateMachine::ResetShot()
     {
         m_stateTime = 0;

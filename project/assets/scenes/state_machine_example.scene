@@ -592,3 +592,9 @@ Entities:
         path: assets/audio/sfx/hit_2.ogg
       hitSfxVolume: 1
       deathEffectPrefab: 1932126691914227009
+    SuperPupUtilities::SimpleObjectPool:
+      logWarnings: true
+      pools:
+        - code: laser_bullet
+          prefab: 16543449644754534652
+          size: 10
