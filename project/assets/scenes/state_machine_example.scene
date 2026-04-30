@@ -580,8 +580,9 @@ Entities:
       detectionRange: 25
       bodyColliderSize: [1, 1, 1]
       moveSpeed: 4
-      shotTime: 1
+      shotTime: 0.3
       attackRange: 12.25
+      duration: 0
       maxHealth: 20
       logStateChanges: true
       hitSfxPath1:

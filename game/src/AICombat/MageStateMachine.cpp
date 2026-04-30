@@ -310,8 +310,6 @@ namespace AICombat
         const Canis::Vector3 rotation = Canis::Vector3(0.0f, yaw, 0.0f);
 
         auto* pool = SuperPupUtilities::SimpleObjectPool::Instance;
-        if (pool == nullptr)
-            return;
 
         Canis::Entity* projectile = pool->Spawn("laser_bullet", position, rotation);
         if (projectile == nullptr)
@@ -319,14 +317,11 @@ namespace AICombat
 
         if (SuperPupUtilities::Bullet* bullet = projectile->GetScript<SuperPupUtilities::Bullet>())
         {
-            Debug::Log("BulletDid thing");
-            bullet->speed = 10.0f;
-            bullet->lifeTime = 2.0f;
-            bullet->hitImpulse = 1.0f;
-
+            bullet->speed = 14.0f;
+            bullet->lifeTime = 4.0f;
+            bullet->hitImpulse = 14.0f;
             bullet->targetTags.clear();
             bullet->targetTags.push_back(target->tag);
-
             bullet->Launch();
         }
     }

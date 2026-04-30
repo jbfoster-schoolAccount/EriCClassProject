@@ -30,10 +30,10 @@ Entities:
       speed: 14
       lifeTime: 4
       gravity: 0
-      destroyOnImpact: false
+      destroyOnImpact: true
       destroyEntityWhenDone: false
       autoLaunch: false
       collisionMask: 4294967295
       hitImpulse: 6
       targetTags:
-        - Red
+        - Player
