@@ -1,12 +1,12 @@
+#include <AICombat/BigBrawlerStateMachine.hpp>
+#include <AICombat/BrawlerStateMachine.hpp>
 #include <AICombat/MageStateMachine.hpp>
+#include <AICombat/HealStateMachine.hpp>
 
 #include <Canis/App.hpp>
 #include <Canis/AudioManager.hpp>
 #include <Canis/ConfigHelper.hpp>
 #include <Canis/Debug.hpp>
-
-#include <SuperPupUtilities/Bullet.hpp>
-#include <SuperPupUtilities/SimpleObjectPool.hpp>
 
 #include <algorithm>
 #include <cmath>
@@ -16,141 +16,141 @@ namespace AICombat
 {
     namespace
     {
-        ScriptConf mageStateMachineConf = {};
+        ScriptConf healStateMachineConf = {};
     }
 
-    MageIdleState::MageIdleState(SuperPupUtilities::StateMachine& _stateMachine) :
+    HealIdleState::HealIdleState(SuperPupUtilities::StateMachine& _stateMachine) :
         State(Name, _stateMachine) {}
 
-    void MageIdleState::Enter()
+    void HealIdleState::Enter()
     {
-        if (MageStateMachine* mageStateMachine = dynamic_cast<MageStateMachine*>(m_stateMachine))
-            mageStateMachine->ResetShot();
+        if (HealStateMachine* healStateMachine = dynamic_cast<HealStateMachine*>(m_stateMachine))
+            healStateMachine->ResetShot();
     }
 
-    void MageIdleState::Update(float)
+    void HealIdleState::Update(float)
     {
-        if (MageStateMachine* mageStateMachine = dynamic_cast<MageStateMachine*>(m_stateMachine))
+        if (HealStateMachine* healStateMachine = dynamic_cast<HealStateMachine*>(m_stateMachine))
         {
-            if (mageStateMachine->FindClosestTarget() != nullptr)
-                mageStateMachine->ChangeState(MageChaseState::Name);
+            if (healStateMachine->FindClosestTarget() != nullptr)
+                healStateMachine->ChangeState(HealChaseState::Name);
         }
     }
 
-    MageChaseState::MageChaseState(SuperPupUtilities::StateMachine& _stateMachine) :
+    HealChaseState::HealChaseState(SuperPupUtilities::StateMachine& _stateMachine) :
         State(Name, _stateMachine) {}
 
-    void MageChaseState::Enter()
+    void HealChaseState::Enter()
     {
-        if (MageStateMachine* mageStateMachine = dynamic_cast<MageStateMachine*>(m_stateMachine))
-            mageStateMachine->ResetShot();
+        if (HealStateMachine* healStateMachine = dynamic_cast<HealStateMachine*>(m_stateMachine))
+            healStateMachine->ResetShot();
     }
 
-    void MageChaseState::Update(float _dt)
+    void HealChaseState::Update(float _dt)
     {
-        MageStateMachine* mageStateMachine = dynamic_cast<MageStateMachine*>(m_stateMachine);
-        if (mageStateMachine == nullptr)
+        HealStateMachine* healStateMachine = dynamic_cast<HealStateMachine*>(m_stateMachine);
+        if (healStateMachine == nullptr)
             return;
 
-        Canis::Entity* target = mageStateMachine->FindClosestTarget();
+        Canis::Entity* target = healStateMachine->FindClosestTarget();
 
         if (target == nullptr)
         {
-            mageStateMachine->ChangeState(MageIdleState::Name);
+            healStateMachine->ChangeState(HealIdleState::Name);
             return;
         }
 
-        mageStateMachine->FaceTarget(*target);
+        healStateMachine->FaceTarget(*target);
 
-        if (mageStateMachine->DistanceTo(*target) <= mageStateMachine->GetAttackRange())
+        if (healStateMachine->DistanceTo(*target) <= healStateMachine->GetAttackRange())
         {
-            mageStateMachine->ChangeState(MageShotState::Name);
+            healStateMachine->ChangeState(HealShotState::Name);
             return;
         }
 
-        mageStateMachine->MoveTowards(*target, moveSpeed, _dt);
+        healStateMachine->MoveTowards(*target, moveSpeed, _dt);
     }
 
-    MageShotState::MageShotState(SuperPupUtilities::StateMachine& _stateMachine) :
+    HealShotState::HealShotState(SuperPupUtilities::StateMachine& _stateMachine) :
         State(Name, _stateMachine) {}
 
-    void MageShotState::Enter()
+    void HealShotState::Enter()
     {
-        if (MageStateMachine* mageStatMachine = dynamic_cast<MageStateMachine*>(m_stateMachine))
-            mageStatMachine->ResetShot();
+        if (HealStateMachine* healStatMachine = dynamic_cast<HealStateMachine*>(m_stateMachine))
+            healStatMachine->ResetShot();
     }
 
-    void MageShotState::Update(float)
+    void HealShotState::Update(float)
     {
-        MageStateMachine* mageStatMachine = dynamic_cast<MageStateMachine*>(m_stateMachine);
-        if (mageStatMachine == nullptr)
+        HealStateMachine* healStatMachine = dynamic_cast<HealStateMachine*>(m_stateMachine);
+        if (healStatMachine == nullptr)
             return;
 
-        if (Canis::Entity* target = mageStatMachine->FindClosestTarget())
-            mageStatMachine->FaceTarget(*target);
+        if (Canis::Entity* target = healStatMachine->FindClosestTarget())
+            healStatMachine->FaceTarget(*target);
 
         duration = duration + 0.001f;
 
         if (duration >= shotTime)
         {
-            mageStatMachine->ShootShot();
+            healStatMachine->ShootShot();
             duration = 0.0f;
         }
 
-        if (mageStatMachine->GetStateTime() < duration)
+        if (healStatMachine->GetStateTime() < duration)
             return;
 
-        if (mageStatMachine->FindClosestTarget() != nullptr)
-            mageStatMachine->ChangeState(MageChaseState::Name);
+        if (healStatMachine->FindClosestTarget() != nullptr)
+            healStatMachine->ChangeState(HealChaseState::Name);
         else
-            mageStatMachine->ChangeState(MageIdleState::Name);
+            healStatMachine->ChangeState(HealIdleState::Name);
     }
 
-    void MageShotState::Exit()
+    void HealShotState::Exit()
     {
-        if (MageStateMachine* mageStatMachine = dynamic_cast<MageStateMachine*>(m_stateMachine))
-            mageStatMachine->ResetShot();
+        if (HealStateMachine* healStatMachine = dynamic_cast<HealStateMachine*>(m_stateMachine))
+            healStatMachine->ResetShot();
     }
 
-    MageStateMachine::MageStateMachine(Canis::Entity& _entity) :
+    HealStateMachine::HealStateMachine(Canis::Entity& _entity) :
         SuperPupUtilities::StateMachine(_entity),
         idleState(*this),
         chaseState(*this),
-        shotState(*this) {}
+        healState(*this) {}
 
-    void RegisterMageStateMachineScript(Canis::App& _app)
+    void RegisterHealStateMachineScript(Canis::App& _app)
     {
-        REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, targetTag);
-        REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, detectionRange);
-        REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, bodyColliderSize);
-        RegisterAccessorProperty(mageStateMachineConf, AICombat::MageStateMachine, chaseState, moveSpeed);
-        RegisterAccessorProperty(mageStateMachineConf, AICombat::MageStateMachine, shotState, shotTime);
-        RegisterAccessorProperty(mageStateMachineConf, AICombat::MageStateMachine, shotState, attackRange);
-        RegisterAccessorProperty(mageStateMachineConf, AICombat::MageStateMachine, shotState, duration);
-        REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, maxHealth);
-        REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, logStateChanges);
-        REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, hitSfxPath1);
-        REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, hitSfxPath2);
-        REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, hitSfxVolume);
-        REGISTER_PROPERTY(mageStateMachineConf, AICombat::MageStateMachine, deathEffectPrefab);
+        REGISTER_PROPERTY(healStateMachineConf, AICombat::HealStateMachine, targetTag);
+        REGISTER_PROPERTY(healStateMachineConf, AICombat::HealStateMachine, detectionRange);
+        REGISTER_PROPERTY(healStateMachineConf, AICombat::HealStateMachine, bodyColliderSize);
+        RegisterAccessorProperty(healStateMachineConf, AICombat::HealStateMachine, chaseState, moveSpeed);
+        RegisterAccessorProperty(healStateMachineConf, AICombat::HealStateMachine, healState, shotTime);
+        RegisterAccessorProperty(healStateMachineConf, AICombat::HealStateMachine, healState, attackRange);
+        RegisterAccessorProperty(healStateMachineConf, AICombat::HealStateMachine, healState, duration);
+        REGISTER_PROPERTY(healStateMachineConf, AICombat::HealStateMachine, maxHealth);
+        REGISTER_PROPERTY(healStateMachineConf, AICombat::HealStateMachine, logStateChanges);
+        REGISTER_PROPERTY(healStateMachineConf, AICombat::HealStateMachine, hitSfxPath1);
+        REGISTER_PROPERTY(healStateMachineConf, AICombat::HealStateMachine, hitSfxPath2);
+        REGISTER_PROPERTY(healStateMachineConf, AICombat::HealStateMachine, hitSfxVolume);
+        REGISTER_PROPERTY(healStateMachineConf, AICombat::HealStateMachine, deathEffectPrefab);
 
         DEFAULT_CONFIG_AND_REQUIRED(
-            mageStateMachineConf,
-            AICombat::MageStateMachine,
+            healStateMachineConf,
+            AICombat::HealStateMachine,
             Canis::Transform,
             Canis::Material,
             Canis::Model,
             Canis::Rigidbody,
             Canis::BoxCollider);
 
-        mageStateMachineConf.DEFAULT_DRAW_INSPECTOR(AICombat::MageStateMachine);
+        healStateMachineConf.DEFAULT_DRAW_INSPECTOR(AICombat::HealStateMachine);
 
-        _app.RegisterScript(mageStateMachineConf);
+        _app.RegisterScript(healStateMachineConf);
     }
 
-    DEFAULT_UNREGISTER_SCRIPT(mageStateMachineConf, MageStateMachine)
+    DEFAULT_UNREGISTER_SCRIPT(healStateMachineConf, HealStateMachine)
 
-    void MageStateMachine::Create()
+    void HealStateMachine::Create()
     {
         entity.GetComponent<Canis::Transform>();
 
@@ -170,7 +170,7 @@ namespace AICombat
         }
     }
 
-    void MageStateMachine::Ready()
+    void HealStateMachine::Ready()
     {
         if (entity.HasComponent<Canis::Material>())
         {
@@ -185,18 +185,18 @@ namespace AICombat
         ClearStates();
         AddState(idleState);
         AddState(chaseState);
-        AddState(shotState);
+        AddState(healState);
 
         ResetShot();
-        ChangeState(MageIdleState::Name);
+        ChangeState(HealIdleState::Name);
     }
 
-    void MageStateMachine::Destroy()
+    void HealStateMachine::Destroy()
     {
         SuperPupUtilities::StateMachine::Destroy();
     }
 
-    void MageStateMachine::Update(float _dt)
+    void HealStateMachine::Update(float _dt)
     {
         if (!IsAlive())
             return;
@@ -205,17 +205,7 @@ namespace AICombat
         SuperPupUtilities::StateMachine::Update(_dt);
     }
 
-    void MageStateMachine::PlayATKSfx()
-    {
-        const Canis::AudioAssetHandle& selectedSfx = healSfx;
-
-        if (selectedSfx.Empty())
-            return;
-
-        Canis::AudioManager::PlaySFX(selectedSfx, 1.0f);
-    }
-
-    Canis::Entity* MageStateMachine::FindClosestTarget() const
+    Canis::Entity* HealStateMachine::FindClosestTarget() const
     {
         if (targetTag.empty() || !entity.HasComponent<Canis::Transform>())
             return nullptr;
@@ -227,13 +217,30 @@ namespace AICombat
 
         for (Canis::Entity* candidate : entity.scene.GetEntitiesWithTag(targetTag))
         {
+            bool lowHealth = false;
+
+            if (auto* heal = candidate->GetScript<HealStateMachine>())
+                lowHealth = heal->GetCurrentHealth() <= 20;
+
+            if (auto* brawler = candidate->GetScript<BrawlerStateMachine>())
+                lowHealth = brawler->GetCurrentHealth() <= 20;
+
+            if (auto* big = candidate->GetScript<BigBrawlerStateMachine>())
+                lowHealth = big->GetCurrentHealth() <= 50;
+
+            if (auto* mage = candidate->GetScript<MageStateMachine>())
+                lowHealth = mage->GetCurrentHealth() <= 10;
+
+            if (lowHealth)
+                continue;
+
             if (candidate == nullptr || candidate == &entity || !candidate->active)
                 continue;
 
             if (!candidate->HasComponent<Canis::Transform>())
                 continue;
 
-            if (const MageStateMachine* other = candidate->GetScript<MageStateMachine>())
+            if (const HealStateMachine* other = candidate->GetScript<HealStateMachine>())
             {
                 if (!other->IsAlive())
                     continue;
@@ -252,7 +259,7 @@ namespace AICombat
         return closestTarget;
     }
 
-    float MageStateMachine::DistanceTo(const Canis::Entity& _other) const
+    float HealStateMachine::DistanceTo(const Canis::Entity& _other) const
     {
         if (!entity.HasComponent<Canis::Transform>() || !_other.HasComponent<Canis::Transform>())
             return std::numeric_limits<float>::max();
@@ -262,7 +269,7 @@ namespace AICombat
         return glm::distance(selfPosition, targetPosition);
     }
 
-    void MageStateMachine::FaceTarget(const Canis::Entity& _target)
+    void HealStateMachine::FaceTarget(const Canis::Entity& _target)
     {
         if (!entity.HasComponent<Canis::Transform>() || !_target.HasComponent<Canis::Transform>())
             return;
@@ -279,7 +286,7 @@ namespace AICombat
         transform.rotation.y = std::atan2(-direction.x, -direction.z);
     }
 
-    void MageStateMachine::MoveTowards(const Canis::Entity& _target, float _speed, float _dt)
+    void HealStateMachine::MoveTowards(const Canis::Entity& _target, float _speed, float _dt)
     {
         if (!entity.HasComponent<Canis::Transform>() || !_target.HasComponent<Canis::Transform>())
             return;
@@ -296,53 +303,40 @@ namespace AICombat
         transform.position += direction * _speed * _dt;
     }
 
-    void MageStateMachine::ShootShot()
+    void HealStateMachine::ShootShot()
     {
-        if (!entity.HasComponent<Canis::Transform>())
-            return;
-
-        Canis::Entity* target = FindClosestTarget();
-        if (target == nullptr || !target->HasComponent<Canis::Transform>())
-            return;
-
-        const Canis::Vector3 position = entity.GetComponent<Canis::Transform>().GetGlobalPosition();
-        const Canis::Vector3 targetPos = target->GetComponent<Canis::Transform>().GetGlobalPosition();
-    
-        Canis::Vector3 direction = targetPos - position;
-        direction.y = 0.0f;
-
-        if (glm::dot(direction, direction) <= 0.0001f)
-            return;
-
-        direction = glm::normalize(direction);
-
-        const float yaw = std::atan2(-direction.x, -direction.z);
-        const Canis::Vector3 rotation = Canis::Vector3(0.0f, yaw, 0.0f);
-
-        auto* pool = SuperPupUtilities::SimpleObjectPool::Instance;
-
-        Canis::Entity* projectile = pool->Spawn("laser_bullet", position, rotation);
-        if (projectile == nullptr)
-            return;
-
-        if (SuperPupUtilities::Bullet* bullet = projectile->GetScript<SuperPupUtilities::Bullet>())
+        for (Canis::Entity* other : entity.GetComponent<Canis::BoxCollider>().entered)
         {
-            bullet->speed = 14.0f;
-            bullet->lifeTime = 4.0f;
-            bullet->hitImpulse = 14.0f;
-            bullet->targetTags.clear();
-            bullet->targetTags.push_back(target->tag);
-            bullet->Launch();
-            PlayATKSfx();
+        BigBrawlerStateMachine* target1 = nullptr;
+        BrawlerStateMachine* target2 = nullptr;
+        MageStateMachine* target3 = nullptr;
+        HealStateMachine* target4 = nullptr;
+        if (auto* big = other->GetScript<BigBrawlerStateMachine>())
+            target1 = big;
+        else if (auto* brawler = other->GetScript<BrawlerStateMachine>())
+            target2 = brawler;
+        else if (auto* mage = other->GetScript<MageStateMachine>())
+            target3 = mage;
+        else if (auto* heal = other->GetScript<HealStateMachine>())
+            target4 = heal;
+        if (target1 != nullptr)
+            target1->TakeDamage(-3.0f);
+        if (target2 != nullptr)
+            target2->TakeDamage(-3.0f);
+        if (target3 != nullptr)
+            target3->TakeDamage(-3.0f);
+        if (target4 != nullptr)
+            target4->TakeDamage(-3.0f);
         }
+        PlayATKSfx();
     }
     
-    void MageStateMachine::ResetShot()
+    void HealStateMachine::ResetShot()
     {
         m_stateTime = 0;
     }
 
-    void MageStateMachine::ChangeState(const std::string& _stateName)
+    void HealStateMachine::ChangeState(const std::string& _stateName)
     {
         if (SuperPupUtilities::StateMachine::GetCurrentStateName() == _stateName)
             return;
@@ -356,27 +350,27 @@ namespace AICombat
             Canis::Debug::Log("%s -> %s", entity.name.c_str(), _stateName.c_str());
     }
 
-    const std::string& MageStateMachine::GetCurrentStateName() const
+    const std::string& HealStateMachine::GetCurrentStateName() const
     {
         return SuperPupUtilities::StateMachine::GetCurrentStateName();
     }
 
-    float MageStateMachine::GetStateTime() const
+    float HealStateMachine::GetStateTime() const
     {
         return m_stateTime;
     }
 
-    float MageStateMachine::GetAttackRange() const
+    float HealStateMachine::GetAttackRange() const
     {
-        return shotState.attackRange;
+        return healState.attackRange;
     }
 
-    int MageStateMachine::GetCurrentHealth() const
+    int HealStateMachine::GetCurrentHealth() const
     {
         return m_currentHealth;
     }
 
-    void MageStateMachine::TakeDamage(int _damage)
+    void HealStateMachine::TakeDamage(int _damage)
     {
         if (!IsAlive())
             return;
@@ -412,7 +406,7 @@ namespace AICombat
         entity.Destroy();
     }
 
-    void MageStateMachine::PlayHitSfx()
+    void HealStateMachine::PlayHitSfx()
     {
         const Canis::AudioAssetHandle& selectedSfx = m_useFirstHitSfx ? hitSfxPath1 : hitSfxPath2;
         m_useFirstHitSfx = !m_useFirstHitSfx;
@@ -423,7 +417,17 @@ namespace AICombat
         Canis::AudioManager::PlaySFX(selectedSfx, std::clamp(hitSfxVolume, 0.0f, 1.0f));
     }
 
-    void MageStateMachine::SpawnDeathEffect()
+    void HealStateMachine::PlayATKSfx()
+    {
+        const Canis::AudioAssetHandle& selectedSfx = healSfx;
+
+        if (selectedSfx.Empty())
+            return;
+
+        Canis::AudioManager::PlaySFX(selectedSfx, 1.0f);
+    }
+
+    void HealStateMachine::SpawnDeathEffect()
     {
         if (deathEffectPrefab.Empty() || !entity.HasComponent<Canis::Transform>())
             return;
@@ -443,7 +447,7 @@ namespace AICombat
         }
     }
 
-    bool MageStateMachine::IsAlive() const
+    bool HealStateMachine::IsAlive() const
     {
         return m_currentHealth > 0;
     }

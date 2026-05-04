@@ -1,6 +1,9 @@
 #include <AICombat/BigHammerDamage.hpp>
 
 #include <AICombat/BigBrawlerStateMachine.hpp>
+#include <AICombat/BrawlerStateMachine.hpp>
+#include <AICombat/MageStateMachine.hpp>
+#include <AICombat/HealStateMachine.hpp>
 
 #include <Canis/App.hpp>
 #include <Canis/ConfigHelper.hpp>
@@ -91,17 +94,28 @@ namespace AICombat
 
         for (Canis::Entity* other : entity.GetComponent<Canis::BoxCollider>().entered)
         {
-            if (other == nullptr || !other->active || other == owner || HasDamagedThisSwing(*other))
-                continue;
+            BigBrawlerStateMachine* target1 = nullptr;
+            BrawlerStateMachine* target2 = nullptr;
+            MageStateMachine* target3 = nullptr;
+            HealStateMachine* target4 = nullptr;
 
-            BigBrawlerStateMachine* targetStateMachine = other->GetScript<BigBrawlerStateMachine>();
-            if (targetStateMachine == nullptr || !targetStateMachine->IsAlive())
-                continue;
+            if (auto* big = other->GetScript<BigBrawlerStateMachine>())
+                target1 = big;
+            else if (auto* brawler = other->GetScript<BrawlerStateMachine>())
+                target2 = brawler;
+            else if (auto* mage = other->GetScript<MageStateMachine>())
+                target3 = mage;
+            else if (auto* heal = other->GetScript<HealStateMachine>())
+                target4 = heal;
 
-            if (other->tag != targetTag)
-                continue;
-
-            targetStateMachine->TakeDamage(damage);
+            if (target1 != nullptr)
+                target1->TakeDamage(damage);
+            if (target2 != nullptr)
+                target2->TakeDamage(damage);
+            if (target3 != nullptr)
+                target3->TakeDamage(damage);
+            if (target4 != nullptr)
+                target4->TakeDamage(damage);
             m_hitTargetsThisSwing.push_back(other);
         }
     }

@@ -2,6 +2,10 @@
 
 #include <Canis/App.hpp>
 #include <Canis/ConfigHelper.hpp>
+#include <AICombat/BigBrawlerStateMachine.hpp>
+#include <AICombat/BrawlerStateMachine.hpp>
+#include <AICombat/MageStateMachine.hpp>
+#include <AICombat/HealStateMachine.hpp>
 
 #include <algorithm>
 #include <string>
@@ -176,6 +180,32 @@ namespace SuperPupUtilities
         if (!entity.HasComponent<Canis::Transform>())
             return;
 
+        for (Canis::Entity* other : entity.GetComponent<Canis::BoxCollider>().entered)
+        {
+            AICombat::BigBrawlerStateMachine* target1 = nullptr;
+            AICombat::BrawlerStateMachine* target2 = nullptr;
+            AICombat::MageStateMachine* target3 = nullptr;
+            AICombat::HealStateMachine* target4 = nullptr;
+
+            if (auto* big = other->GetScript<AICombat::BigBrawlerStateMachine>())
+                target1 = big;
+            else if (auto* brawler = other->GetScript<AICombat::BrawlerStateMachine>())
+                target2 = brawler;
+            else if (auto* mage = other->GetScript<AICombat::MageStateMachine>())
+                target3 = mage;
+            else if (auto* heal = other->GetScript<AICombat::HealStateMachine>())
+                target4 = heal;
+
+            if (target1 != nullptr)
+                target1->TakeDamage(4.0f);
+            if (target2 != nullptr)
+                target2->TakeDamage(4.0f);
+            if (target3 != nullptr)
+                target3->TakeDamage(4.0f);
+            if (target4 != nullptr)
+                target4->TakeDamage(4.0f);
+        }
+
         Canis::Transform& transform = entity.GetComponent<Canis::Transform>();
         transform.position = _position;
         transform.rotation = _rotation;
@@ -234,6 +264,24 @@ namespace SuperPupUtilities
             hit.entity->GetComponent<Canis::Rigidbody>().AddForce(
                 direction * hitImpulse,
                 Canis::Rigidbody3DForceMode::IMPULSE);
+        }
+
+        if (IsValidTarget(*hit.entity))
+        {
+            if (auto* big = hit.entity->GetScript<AICombat::BigBrawlerStateMachine>())
+                big->TakeDamage(4.0f);
+        
+            if (auto* brawler = hit.entity->GetScript<AICombat::BrawlerStateMachine>())
+                brawler->TakeDamage(4.0f);
+        
+            if (auto* mage = hit.entity->GetScript<AICombat::MageStateMachine>())
+                mage->TakeDamage(4.0f);
+        
+            if (auto* heal = hit.entity->GetScript<AICombat::HealStateMachine>())
+                heal->TakeDamage(4.0f);
+        
+            DestroyBullet();
+            return;
         }
 
         if (destroyOnImpact)
